@@ -7,7 +7,11 @@
             "email": "support@webgriffe.com"
         }
     ],
-    "require": {},
+    "require": {
+        "symfony-cmf/symfony-cmf": "1.2.*",
+        "symfony-cmf/create-bundle": "1.2.*",
+        "jackalope/jackalope-doctrine-dbal": "1.1.*"
+    },
     "autoload": {
         "psr-4": {"Webgriffe\\Cmf\\PageBundle\\": "src/"}
     }
