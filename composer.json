@@ -1,0 +1,11 @@
+{
+    "name": "webgriffe/cmf-page-bundle",
+    "description": "CMF Page Bundle",
+    "authors": [
+        {
+            "name": "Webgriffe SRL",
+            "email": "support@webgriffe.com"
+        }
+    ],
+    "require": {}
+}

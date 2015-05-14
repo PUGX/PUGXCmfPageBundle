@@ -1,0 +1,4 @@
+services:
+#    webgriffe_cmf_page.example:
+#        class: Webgriffe\Cmf\PageBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
