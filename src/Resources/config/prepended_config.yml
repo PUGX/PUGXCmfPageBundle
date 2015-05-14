@@ -1,3 +1,49 @@
+# Doctrine Configuration (needed for Jackalope Doctrine DBAL)
+doctrine:
+    dbal:
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        path:     "%database_path%"
+
+# Doctrine PHPCR-ODM configuration
+doctrine_phpcr:
+    session:
+        backend: "%phpcr_backend%"
+        workspace: "%phpcr_workspace%"
+        username: "%phpcr_user%"
+        password: "%phpcr_password%"
+    odm:
+        auto_mapping: true
+        auto_generate_proxy_classes: "%kernel.debug%"
+
+# Jackalope Metadata and Node Cache services
+doctrine_cache:
+    providers:
+        phpcr_meta:
+            type: file_system
+        phpcr_nodes:
+            type: file_system
+
+# Menu Configuration
+knp_menu:
+    twig: true
+
+# Sonata Block Configuration
+sonata_block:
+    default_contexts: [cms]
+
+# Cmf Create Configuration
+fos_rest:
+    view:
+        formats:
+            json: true
+
+# Cmf Routing Configuration
 cmf_routing:
     chain:
         routers_by_id:
@@ -9,6 +55,7 @@ cmf_routing:
             phpcr:
                 route_basepath: /cms/routes
 
+# Cmf Auto Routing Configuration
 cmf_routing_auto:
     persistence:
         phpcr:
