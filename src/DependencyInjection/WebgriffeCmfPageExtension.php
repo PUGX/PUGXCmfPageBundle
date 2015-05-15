@@ -36,12 +36,6 @@ class WebgriffeCmfPageExtension extends Extension implements PrependExtensionInt
      */
     public function prepend(ContainerBuilder $container)
     {
-        /**
-            chain:
-                routers_by_id:
-                    cmf_routing.dynamic_router: 20
-                    router.default: 100
-         */
         $configs = $this->loadYmlConfig('prepended_config.yml');
         foreach ($configs as $name => $config) {
             $container->prependExtensionConfig($name, $config);
