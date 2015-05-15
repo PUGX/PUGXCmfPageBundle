@@ -29,6 +29,14 @@ doctrine_cache:
         phpcr_nodes:
             type: file_system
 
+# Cmf Configuration - TODO dovrebbe essere in WebgriffeCmfPageBundle ma se lo sposto in prepend config non lo prende...
+cmf_core:
+    persistence:
+        phpcr: true
+        # if you want another basepath
+        # basepath: /custom/basepath
+    publish_workflow: false
+
 # Menu Configuration
 knp_menu:
     twig: true
