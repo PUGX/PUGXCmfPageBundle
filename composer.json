@@ -11,7 +11,8 @@
         "symfony-cmf/symfony-cmf": "1.2.*",
         "symfony-cmf/create-bundle": "1.2.*",
         "jackalope/jackalope-doctrine-dbal": "1.1.*",
-        "symfony-cmf/routing-auto-bundle": "~1.0"
+        "symfony-cmf/routing-auto-bundle": "~1.0",
+        "sonata-project/doctrine-phpcr-admin-bundle": "~1.2"
     },
     "autoload": {
         "psr-4": {"Webgriffe\\Cmf\\PageBundle\\": "src/"}
