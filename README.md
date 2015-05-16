@@ -73,6 +73,9 @@ Now you have to add Symfony CMF bundles and `WebgriffeCmfPageBundle` to your `Ap
             new Symfony\Cmf\Bundle\BlockBundle\CmfBlockBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
             new Sonata\CoreBundle\SonataCoreBundle(),
+            new Sonata\jQueryBundle\SonatajQueryBundle(),
+            new Sonata\AdminBundle\SonataAdminBundle(),
+            new Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle(),
 
             new Symfony\Cmf\Bundle\MenuBundle\CmfMenuBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
@@ -89,4 +92,11 @@ Now you have to add Symfony CMF bundles and `WebgriffeCmfPageBundle` to your `Ap
 ```
 
 Pay attention that `CmfCoreBundle` must be loaded after any bundle which prepend config (such as `WebgriffeCmfPageBundle`) because in `CmfCoreExtension::prepend()` it copies configuration for others CMF bundles. So because `WebgriffeCmfPageBundle` would prepend configuration for `cmf_core` it must be loaded before `CmfCoreBundle` to correctly copy such config on other CMF bundles.
-         
+
+Then add the routing to your application in the `app/config/routing.yml`:
+
+```
+webgriffe_cmf_page_bundle:
+    resource: "@WebgriffeCmfPageBundle/Resources/config/routing.yml"
+    type: yaml
+```
