@@ -66,7 +66,6 @@ Now you have to add Symfony CMF bundles and `WebgriffeCmfPageBundle` to your `Ap
         	// Symfony CMF Bundles
             new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
-            new Symfony\Cmf\Bundle\ContentBundle\CmfContentBundle(),
             new Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
             new Symfony\Cmf\Bundle\RoutingAutoBundle\CmfRoutingAutoBundle(),
 
