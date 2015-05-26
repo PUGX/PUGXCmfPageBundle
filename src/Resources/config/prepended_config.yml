@@ -1,3 +1,7 @@
+# Framework Configuration
+framework:
+    translator:      { fallback: "%locale%" }
+
 # Doctrine Configuration (needed for Jackalope Doctrine DBAL)
 doctrine:
     dbal:
