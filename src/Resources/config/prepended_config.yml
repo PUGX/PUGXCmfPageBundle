@@ -72,9 +72,11 @@ cmf_routing:
         persistence:
             phpcr:
                 route_basepath: /cms/routes
+        generic_controller: "webgriffe_cmf_page.generic_controller:indexAction"
 
 # Cmf Auto Routing Configuration
 cmf_routing_auto:
     persistence:
         phpcr:
             enabled: true
+
