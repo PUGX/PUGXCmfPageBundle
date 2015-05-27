@@ -80,3 +80,13 @@ cmf_routing_auto:
         phpcr:
             enabled: true
 
+# Sonata Doctrine PHPCR Admin Configuration
+sonata_doctrine_phpcr_admin:
+    document_tree:
+        Doctrine\ODM\PHPCR\Document\Generic:
+            valid_children:
+                - all
+        Webgriffe\Cmf\PageBundle\Document\Page:
+            valid_children:
+                - all
+
