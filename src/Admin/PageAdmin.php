@@ -21,12 +21,6 @@ class PageAdmin extends Admin
     {
         $form
             ->with('form.group_general')
-                ->add(
-                    'parentDocument',
-                    'doctrine_phpcr_odm_tree',
-                    array('root_node' => $this->getRootPath(), 'choice_list' => array(), 'select_root_node' => true)
-                )
-//                ->add('name', 'text')
                 ->add('title', 'text')
                 ->add('content', 'textarea')
             ->end()
@@ -35,7 +29,7 @@ class PageAdmin extends Admin
 
     protected function configureListFields(ListMapper $list)
     {
-        $list->addIdentifier('name');
+        $list->addIdentifier('title');
     }
 
 
