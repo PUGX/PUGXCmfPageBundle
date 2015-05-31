@@ -21,6 +21,11 @@ class PageAdmin extends Admin
     {
         $form
             ->with('form.group_general')
+                ->add(
+                    'parent',
+                    'doctrine_phpcr_odm_tree',
+                    array('root_node' => $this->getRootPath(), 'choice_list' => array(), 'select_root_node' => true)
+                )
                 ->add('title', 'text')
                 ->add('content', 'textarea')
             ->end()
