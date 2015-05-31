@@ -6,6 +6,13 @@ services:
     arguments:
       - WebgriffeCmfPageBundle
       - [ /cms/content ]
+  webgriffe_cmf_page.menu_initializer:
+      class: Webgriffe\Cmf\PageBundle\Initializer\MenuInitializer
+      tags:
+        - { name: doctrine_phpcr.initializer }
+      arguments:
+        - /cms/menu # TODO: usare stesso parametro passato a cmf_menu come base path
+        - { main: "Main Menu", footer: "Footer Menu" }
   webgriffe_cmf_page.generic_controller:
     class: Webgriffe\Cmf\PageBundle\Controller\GenericController
     arguments:
