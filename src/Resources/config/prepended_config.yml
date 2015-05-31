@@ -80,13 +80,24 @@ cmf_routing_auto:
         phpcr:
             enabled: true
 
+cmf_menu:
+    persistence:
+        phpcr:
+            enabled: true
+            use_sonata_admin: true
+
 # Sonata Doctrine PHPCR Admin Configuration
 sonata_doctrine_phpcr_admin:
     document_tree:
         Doctrine\ODM\PHPCR\Document\Generic:
             valid_children:
                 - all
+        Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu:
+            valid_children:
+                - Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode
+        Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode:
+            valid_children:
+                - Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode
         Webgriffe\Cmf\PageBundle\Document\Page:
             valid_children:
                 - all
-
