@@ -161,6 +161,9 @@ class Page implements HierarchyInterface, RouteReferrersInterface
      */
     public function addRoute($route)
     {
+        if (!$this->routes) {
+            $this->routes = new ArrayCollection();
+        }
         $this->routes->add($route);
     }
 
