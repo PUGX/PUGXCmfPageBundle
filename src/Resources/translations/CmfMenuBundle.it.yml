@@ -1,4 +1,5 @@
 dashboard:
+  cmf: Sistema di Gestione Contenuti
   label_menu_node: Elemento del Menù
 
 breadcrumb:

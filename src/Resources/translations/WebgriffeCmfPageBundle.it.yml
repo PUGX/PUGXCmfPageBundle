@@ -1,4 +1,5 @@
 dashboard:
+  cmf: Sistema di Gestione Contenuti
   label_page: Pagina
 
 breadcrumb:
