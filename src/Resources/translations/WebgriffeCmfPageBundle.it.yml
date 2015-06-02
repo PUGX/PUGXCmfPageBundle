@@ -8,5 +8,6 @@ list:
   label_title: Titolo
 
 form:
+  group_general: Generale
   label_title: Titolo
   label_content: Contenuto

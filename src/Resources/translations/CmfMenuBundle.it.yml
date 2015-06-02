@@ -12,6 +12,7 @@ list:
   label_route: Rotta
 
 form:
+  group_general: Generale
   label_parent: Genitore
   label_label: Etichetta
   label_uri: URI
