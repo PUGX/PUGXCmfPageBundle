@@ -1,0 +1,18 @@
+dashboard:
+  label_menu_node: Elemento del Menù
+
+breadcrumb:
+  link_menu_node_list: Lista "Elementi del Menù"
+
+list:
+  label_id: ID
+  label_name: Nome
+  label_label: Etichetta
+  label_uri: URI
+  label_route: Rotta
+
+form:
+  label_parent: Genitore
+  label_label: Etichetta
+  label_uri: URI
+  label_content: Contenuto

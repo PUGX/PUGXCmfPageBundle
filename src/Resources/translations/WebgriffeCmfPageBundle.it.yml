@@ -1,0 +1,12 @@
+dashboard:
+  label_page: Pagina
+
+breadcrumb:
+  link_page_list: Lista "Pagine"
+
+list:
+  label_title: Titolo
+
+form:
+  label_title: Titolo
+  label_content: Contenuto
