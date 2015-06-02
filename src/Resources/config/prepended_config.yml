@@ -85,7 +85,9 @@ cmf_menu:
         phpcr:
             enabled: true
             use_sonata_admin: true
+            menu_admin_class: Webgriffe\Cmf\PageBundle\Admin\MenuAdmin
             node_admin_class: Webgriffe\Cmf\PageBundle\Admin\MenuNodeAdmin
+            admin_recursive_breadcrumbs: false
 
 # Sonata Doctrine PHPCR Admin Configuration
 sonata_doctrine_phpcr_admin:
