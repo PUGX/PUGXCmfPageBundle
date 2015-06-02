@@ -9,9 +9,13 @@
 namespace Webgriffe\Cmf\PageBundle\Admin;
 
 
+use Cocur\Slugify\Slugify;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\DoctrinePHPCRAdminBundle\Admin\Admin;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Webgriffe\Cmf\PageBundle\Document\Page;
 
 class PageAdmin extends Admin
 {
@@ -29,6 +33,18 @@ class PageAdmin extends Admin
                 ->add('title', 'text')
                 ->add('content', 'textarea')
             ->end()
+            ->getFormBuilder()
+            ->addEventListener(
+                FormEvents::SUBMIT,
+                function (FormEvent $event) {
+                    /** @var Page $page */
+                    $page = $event->getData();
+                    if ($page->getTitle()) {
+                        $slugify = Slugify::create();
+                        $page->setName($slugify->slugify($page->getTitle()));
+                    }
+                }
+            )
         ;
     }
 

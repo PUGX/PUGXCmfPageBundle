@@ -65,6 +65,14 @@ class Page implements HierarchyInterface, RouteReferrersInterface
     }
 
     /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @return mixed
      */
     public function getParentDocument()
@@ -129,7 +137,6 @@ class Page implements HierarchyInterface, RouteReferrersInterface
     public function setTitle($title)
     {
         $this->title = $title;
-        $this->name = $this->createSlug($title);
     }
 
     /**
@@ -146,12 +153,6 @@ class Page implements HierarchyInterface, RouteReferrersInterface
     public function setContent($content)
     {
         $this->content = $content;
-    }
-
-    private function createSlug($title)
-    {
-        $slugify = Slugify::create();
-        return $slugify->slugify($title);
     }
 
     /**
