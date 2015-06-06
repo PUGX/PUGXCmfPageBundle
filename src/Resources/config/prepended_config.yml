@@ -33,7 +33,7 @@ doctrine_cache:
         phpcr_nodes:
             type: file_system
 
-# Cmf Configuration - TODO dovrebbe essere in WebgriffeCmfPageBundle ma se lo sposto in prepend config non lo prende...
+# Cmf Configuration
 cmf_core:
     persistence:
         phpcr:
