@@ -19,10 +19,6 @@ services:
       - @templating
       - WebgriffeCmfPageBundle:Document:default.html.twig
       - @fos_rest.view_handler
-  webgriffe_cmf_page.content_routes_loader_listener:
-    class: Webgriffe\Cmf\PageBundle\EventListener\ContentRoutesLoader
-    tags:
-      - { name: doctrine_phpcr.event_listener, event: postLoad }
   webgriffe_cmf_page.page_admin:
     class: Webgriffe\Cmf\PageBundle\Admin\PageAdmin
     tags:

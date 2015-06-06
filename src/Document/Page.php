@@ -39,6 +39,7 @@ class Page implements HierarchyInterface, RouteReferrersInterface, MenuNodeRefer
 
     /**
      * @var RouteObjectInterface[]
+     * @PHPCR\Referrers(referringDocument="Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route", referencedBy="content")
      */
     protected $routes;
 
