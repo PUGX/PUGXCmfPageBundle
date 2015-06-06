@@ -11,6 +11,7 @@ list:
   label_label: Etichetta
   label_uri: URI
   label_route: Rotta
+  label_parent_path_label: Percorso Genitore
 
 form:
   group_general: Generale

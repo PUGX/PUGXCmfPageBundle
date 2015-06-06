@@ -7,8 +7,12 @@ breadcrumb:
 
 list:
   label_title: Titolo
+  label_menu_nodes: Voci di Menù
+  label_routes: Rotte
 
 form:
   group_general: Generale
+  group_menu: Menù
   label_title: Titolo
   label_content: Contenuto
+  label_menu_nodes: Voci di Menù
