@@ -1,8 +1,14 @@
-{{ knp_menu_render('main') }}
+{% extends 'WebgriffeCmfPageBundle::root.html.twig' %}
 
-<h1>{{ document.title }}</h1>
-<p>
-    {{ document.content }}
-</p>
+{% block main_content %}
 
-{{ knp_menu_render('footer') }}
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>{{ document.title }}</h2>
+            <p>
+                {{ document.content }}
+            </p>
+        </div>
+    </div>
+
+{% endblock %}
