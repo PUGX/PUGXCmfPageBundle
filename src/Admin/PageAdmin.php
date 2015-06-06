@@ -28,6 +28,14 @@ class PageAdmin extends Admin
                 ->add('title', 'text')
                 ->add('content', 'textarea')
             ->end()
+            ->with('form.group_menu')
+                ->add(
+                    'menuNodes',
+                    'sonata_type_collection',
+                    array(),
+                    array('edit' => 'inline', 'inline' => 'table', 'admin_code' => 'cmf_menu.node_admin')
+                )
+            ->end()
             ->getFormBuilder()
             ->addEventListener(
                 FormEvents::SUBMIT,

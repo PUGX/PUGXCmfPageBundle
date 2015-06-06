@@ -8,10 +8,11 @@
 
 namespace Webgriffe\Cmf\PageBundle\Document;
 
-use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\PHPCR\HierarchyInterface;
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCR;
+use Knp\Menu\NodeInterface;
+use Symfony\Cmf\Bundle\MenuBundle\Model\MenuNodeReferrersInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 use Symfony\Component\Routing\Route;
@@ -19,7 +20,7 @@ use Symfony\Component\Routing\Route;
 /**
  * @PHPCR\Document(referenceable=true)
  */
-class Page implements HierarchyInterface, RouteReferrersInterface
+class Page implements HierarchyInterface, RouteReferrersInterface, MenuNodeReferrersInterface
 {
     /**
      * @PHPCR\Id()
@@ -42,6 +43,12 @@ class Page implements HierarchyInterface, RouteReferrersInterface
     protected $routes;
 
     /**
+     * @var NodeInterface[]
+     * @PHPCR\Referrers(referringDocument="Webgriffe\Cmf\PageBundle\Document\MenuNode", referencedBy="content", cascade={"persist", "remove"})
+     */
+    protected $menuNodes;
+
+    /**
      * @PHPCR\String()
      */
     protected $title;
@@ -54,6 +61,7 @@ class Page implements HierarchyInterface, RouteReferrersInterface
     public function __construct()
     {
         $this->routes = new ArrayCollection();
+        $this->menuNodes = new ArrayCollection();
     }
 
     /**
@@ -186,5 +194,38 @@ class Page implements HierarchyInterface, RouteReferrersInterface
     public function getRoutes()
     {
         return $this->routes;
+    }
+
+    /**
+     * Get all menu nodes that point to this content.
+     *
+     * @return NodeInterface[] Menu nodes that point to this content
+     */
+    public function getMenuNodes()
+    {
+        return $this->menuNodes;
+    }
+
+    /**
+     * Add a menu node for this content.
+     *
+     * @param NodeInterface $menu
+     */
+    public function addMenuNode(NodeInterface $menu)
+    {
+        if (!$this->menuNodes) {
+            $this->menuNodes = new ArrayCollection();
+        }
+        $this->menuNodes->add($menu);
+    }
+
+    /**
+     * Remove a menu node for this content.
+     *
+     * @param NodeInterface $menu
+     */
+    public function removeMenuNode(NodeInterface $menu)
+    {
+        $this->menuNodes->removeElement($menu);
     }
 }
