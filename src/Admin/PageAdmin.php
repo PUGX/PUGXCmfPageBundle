@@ -12,6 +12,7 @@ namespace Webgriffe\Cmf\PageBundle\Admin;
 use Cocur\Slugify\Slugify;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrinePHPCRAdminBundle\Admin\Admin;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -56,7 +57,14 @@ class PageAdmin extends Admin
         $list
             ->addIdentifier('title')
             ->add('menuNodes')
-            ->add('routes', null, array('associated_property' => 'path'))
+            ->add(
+                'routes',
+                null,
+                array(
+                    'associated_property' => 'path',
+                    'template' => 'WebgriffeCmfPageBundle:CRUD:list_routes.html.twig'
+                )
+            )
         ;
     }
 

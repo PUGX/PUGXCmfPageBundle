@@ -1,0 +1,13 @@
+{% extends admin.getTemplate('base_list_field') %}
+
+{% block field %}
+    {% for val in value %}
+        <a href="{{ path(val) }}" target="_blank">
+            <small><span class="glyphicon glyphicon-new-window"></span></small>
+            {{ val.path }}
+        </a>
+        {% if not loop.last %}
+            ,&nbsp;
+        {% endif %}
+    {% endfor %}
+{% endblock %}
