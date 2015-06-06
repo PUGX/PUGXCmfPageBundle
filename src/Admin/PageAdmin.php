@@ -53,7 +53,11 @@ class PageAdmin extends Admin
 
     protected function configureListFields(ListMapper $list)
     {
-        $list->addIdentifier('title');
+        $list
+            ->addIdentifier('title')
+            ->add('menuNodes')
+            ->add('routes', null, array('associated_property' => 'path'))
+        ;
     }
 
     public function getNewInstance()
