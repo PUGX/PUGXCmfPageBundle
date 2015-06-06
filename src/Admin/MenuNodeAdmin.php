@@ -39,5 +39,11 @@ class MenuNodeAdmin extends \Symfony\Cmf\Bundle\MenuBundle\Admin\MenuNodeAdmin
             );
     }
 
-
+    protected function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper
+            ->add('parentPathLabel', 'text')
+            ->addIdentifier('label')
+        ;
+    }
 }

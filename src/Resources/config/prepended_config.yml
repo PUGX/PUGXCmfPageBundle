@@ -87,6 +87,7 @@ cmf_menu:
             use_sonata_admin: true
             menu_admin_class: Webgriffe\Cmf\PageBundle\Admin\MenuAdmin
             node_admin_class: Webgriffe\Cmf\PageBundle\Admin\MenuNodeAdmin
+            node_document_class: Webgriffe\Cmf\PageBundle\Document\MenuNode
             admin_recursive_breadcrumbs: false
 
 # Sonata Doctrine PHPCR Admin Configuration
@@ -97,10 +98,10 @@ sonata_doctrine_phpcr_admin:
                 - all
         Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu:
             valid_children:
-                - Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode
-        Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode:
+                - Webgriffe\Cmf\PageBundle\Document\MenuNode
+        Webgriffe\Cmf\PageBundle\Document\MenuNode:
             valid_children:
-                - Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode
+                - Webgriffe\Cmf\PageBundle\Document\MenuNode
         Webgriffe\Cmf\PageBundle\Document\Page:
             valid_children:
                 - all
