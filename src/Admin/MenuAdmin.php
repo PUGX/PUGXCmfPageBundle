@@ -6,7 +6,7 @@
  * Time: 16:44
  */
 
-namespace Webgriffe\Cmf\PageBundle\Admin;
+namespace PUGX\Cmf\PageBundle\Admin;
 
 
 use Sonata\AdminBundle\Route\RouteCollection;

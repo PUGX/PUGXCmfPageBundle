@@ -1,10 +1,10 @@
 {
-    "name": "webgriffe/cmf-page-bundle",
-    "description": "CMF Page Bundle",
+    "name": "pugx/cmf-page-bundle",
+    "description": "Pages management system built on top of Symfony CMF.",
     "authors": [
         {
-            "name": "Webgriffe SRL",
-            "email": "support@webgriffe.com"
+            "name": "Manuele Menozzi",
+            "email": "manuele.menozzi@gmail.com"
         }
     ],
     "require": {
@@ -23,6 +23,6 @@
         "sonata-project/doctrine-phpcr-admin-bundle": "~1.2"
     },
     "autoload": {
-        "psr-4": {"Webgriffe\\Cmf\\PageBundle\\": "src/"}
+        "psr-4": {"PUGX\\Cmf\\PageBundle\\": "src/"}
     }
 }

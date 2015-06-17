@@ -6,7 +6,7 @@
  * Time: 19:45
  */
 
-namespace Webgriffe\Cmf\PageBundle\Initializer;
+namespace PUGX\Cmf\PageBundle\Initializer;
 
 
 use Doctrine\Bundle\PHPCRBundle\Initializer\InitializerInterface;
@@ -80,6 +80,6 @@ class MenuInitializer implements InitializerInterface
      */
     public function getName()
     {
-        return 'webgriffe_cmf_page_bundle_menu_initializer';
+        return 'pugx_cmf_page_bundle_menu_initializer';
     }
 }

@@ -6,13 +6,13 @@
  * Time: 08:36
  */
 
-namespace Webgriffe\Cmf\PageBundle\Document;
+namespace PUGX\Cmf\PageBundle\Document;
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCR;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
 
 /**
  * Class MenuNode
- * @package Webgriffe\Cmf\PageBundle\Document
+ * @package PUGX\Cmf\PageBundle\Document
  *
  * @PHPCR\Document(referenceable=true)
  */

@@ -6,7 +6,7 @@
  * Time: 08:08
  */
 
-namespace Webgriffe\Cmf\PageBundle\Controller;
+namespace PUGX\Cmf\PageBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;

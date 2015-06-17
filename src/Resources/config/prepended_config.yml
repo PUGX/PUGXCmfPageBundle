@@ -72,7 +72,7 @@ cmf_routing:
         persistence:
             phpcr:
                 route_basepath: /cms/routes
-        generic_controller: "webgriffe_cmf_page.generic_controller:indexAction"
+        generic_controller: "pugx_cmf_page.generic_controller:indexAction"
 
 # Cmf Auto Routing Configuration
 cmf_routing_auto:
@@ -85,9 +85,9 @@ cmf_menu:
         phpcr:
             enabled: true
             use_sonata_admin: true
-            menu_admin_class: Webgriffe\Cmf\PageBundle\Admin\MenuAdmin
-            node_admin_class: Webgriffe\Cmf\PageBundle\Admin\MenuNodeAdmin
-            node_document_class: Webgriffe\Cmf\PageBundle\Document\MenuNode
+            menu_admin_class: PUGX\Cmf\PageBundle\Admin\MenuAdmin
+            node_admin_class: PUGX\Cmf\PageBundle\Admin\MenuNodeAdmin
+            node_document_class: PUGX\Cmf\PageBundle\Document\MenuNode
             admin_recursive_breadcrumbs: false
 
 # Sonata Doctrine PHPCR Admin Configuration
@@ -98,10 +98,10 @@ sonata_doctrine_phpcr_admin:
                 - all
         Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu:
             valid_children:
-                - Webgriffe\Cmf\PageBundle\Document\MenuNode
-        Webgriffe\Cmf\PageBundle\Document\MenuNode:
+                - PUGX\Cmf\PageBundle\Document\MenuNode
+        PUGX\Cmf\PageBundle\Document\MenuNode:
             valid_children:
-                - Webgriffe\Cmf\PageBundle\Document\MenuNode
-        Webgriffe\Cmf\PageBundle\Document\Page:
+                - PUGX\Cmf\PageBundle\Document\MenuNode
+        PUGX\Cmf\PageBundle\Document\Page:
             valid_children:
                 - all

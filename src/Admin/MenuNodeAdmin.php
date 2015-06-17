@@ -6,7 +6,7 @@
  * Time: 22:07
  */
 
-namespace Webgriffe\Cmf\PageBundle\Admin;
+namespace PUGX\Cmf\PageBundle\Admin;
 
 
 use Cocur\Slugify\Slugify;

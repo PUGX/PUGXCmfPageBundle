@@ -6,7 +6,7 @@
  * Time: 20:48
  */
 
-namespace Webgriffe\Cmf\PageBundle\Admin;
+namespace PUGX\Cmf\PageBundle\Admin;
 
 
 use Cocur\Slugify\Slugify;
@@ -16,11 +16,11 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrinePHPCRAdminBundle\Admin\Admin;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Webgriffe\Cmf\PageBundle\Document\Page;
+use PUGX\Cmf\PageBundle\Document\Page;
 
 class PageAdmin extends Admin
 {
-    protected $translationDomain = 'WebgriffeCmfPageBundle';
+    protected $translationDomain = 'PUGXCmfPageBundle';
 
     protected function configureFormFields(FormMapper $form)
     {
@@ -62,7 +62,7 @@ class PageAdmin extends Admin
                 null,
                 array(
                     'associated_property' => 'path',
-                    'template' => 'WebgriffeCmfPageBundle:CRUD:list_routes.html.twig'
+                    'template' => 'PUGXCmfPageBundle:CRUD:list_routes.html.twig'
                 )
             )
         ;

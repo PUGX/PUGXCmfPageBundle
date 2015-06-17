@@ -1,36 +1,36 @@
 services:
-  webgriffe_cmf_page.initializer:
+  pugx_cmf_page.initializer:
     class: Doctrine\Bundle\PHPCRBundle\Initializer\GenericInitializer
     tags:
       - { name: doctrine_phpcr.initializer }
     arguments:
-      - WebgriffeCmfPageBundle
+      - PUGXCmfPageBundle
       - [ /cms/content ]
-  webgriffe_cmf_page.menu_initializer:
-      class: Webgriffe\Cmf\PageBundle\Initializer\MenuInitializer
+  pugx_cmf_page.menu_initializer:
+      class: PUGX\Cmf\PageBundle\Initializer\MenuInitializer
       tags:
         - { name: doctrine_phpcr.initializer }
       arguments:
         - /cms/menu # TODO: usare stesso parametro passato a cmf_menu come base path
         - { main: "Main Menu", footer: "Footer Menu" } # TODO: rendere questo array come parametro esterno
-  webgriffe_cmf_page.generic_controller:
-    class: Webgriffe\Cmf\PageBundle\Controller\GenericController
+  pugx_cmf_page.generic_controller:
+    class: PUGX\Cmf\PageBundle\Controller\GenericController
     arguments:
       - @templating
-      - WebgriffeCmfPageBundle:Document:default.html.twig
+      - PUGXCmfPageBundle:Document:default.html.twig
       - @fos_rest.view_handler
-  webgriffe_cmf_page.page_admin:
-    class: Webgriffe\Cmf\PageBundle\Admin\PageAdmin
+  pugx_cmf_page.page_admin:
+    class: PUGX\Cmf\PageBundle\Admin\PageAdmin
     tags:
-      - { name: sonata.admin, manager_type: doctrine_phpcr, group: dashboard.cmf, label_catalogue: WebgriffeCmfPageBundle, label: dashboard.label_page, label_translator_strategy: sonata.admin.label.strategy.underscore }
+      - { name: sonata.admin, manager_type: doctrine_phpcr, group: dashboard.cmf, label_catalogue: PUGXCmfPageBundle, label: dashboard.label_page, label_translator_strategy: sonata.admin.label.strategy.underscore }
     arguments:
       - ~
-      - Webgriffe\Cmf\PageBundle\Document\Page
+      - PUGX\Cmf\PageBundle\Document\Page
       - SonataAdminBundle:CRUD
     calls:
       - [ setRouteBuilder, [@sonata.admin.route.path_info_slashes] ]
       - [ setRootPath, [/cms/content] ]
 
-#    webgriffe_cmf_page.example:
-#        class: Webgriffe\Cmf\PageBundle\Example
+#    pugx_cmf_page.example:
+#        class: PUGX\Cmf\PageBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]

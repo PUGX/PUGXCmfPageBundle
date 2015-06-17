@@ -1,4 +1,4 @@
-Webgriffe\Cmf\PageBundle\Document\Page:
+PUGX\Cmf\PageBundle\Document\Page:
     uri_schema: /{title}
     token_providers:
         title: [content_method, { method: getTitle }]

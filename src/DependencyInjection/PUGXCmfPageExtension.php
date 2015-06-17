@@ -1,6 +1,6 @@
 <?php
 
-namespace Webgriffe\Cmf\PageBundle\DependencyInjection;
+namespace PUGX\Cmf\PageBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -15,7 +15,7 @@ use Symfony\Component\Yaml\Parser;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class WebgriffeCmfPageExtension extends Extension implements PrependExtensionInterface
+class PUGXCmfPageExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}

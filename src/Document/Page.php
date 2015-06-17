@@ -6,7 +6,7 @@
  * Time: 18:15
  */
 
-namespace Webgriffe\Cmf\PageBundle\Document;
+namespace PUGX\Cmf\PageBundle\Document;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\PHPCR\HierarchyInterface;
@@ -45,7 +45,7 @@ class Page implements HierarchyInterface, RouteReferrersInterface, MenuNodeRefer
 
     /**
      * @var NodeInterface[]
-     * @PHPCR\Referrers(referringDocument="Webgriffe\Cmf\PageBundle\Document\MenuNode", referencedBy="content", cascade={"persist", "remove"})
+     * @PHPCR\Referrers(referringDocument="PUGX\Cmf\PageBundle\Document\MenuNode", referencedBy="content", cascade={"persist", "remove"})
      */
     protected $menuNodes;
 
