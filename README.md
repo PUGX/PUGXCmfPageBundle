@@ -74,14 +74,16 @@ Now you have to add Symfony CMF bundles and `PUGXCmfPageBundle` to your `AppKern
     public function registerBundles()
     {
         $bundles = array(
-        	// ...
-        	// Symfony CMF Bundles
+            // ...
+            // Symfony CMF Bundles
             new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
             new Symfony\Cmf\Bundle\RoutingAutoBundle\CmfRoutingAutoBundle(),
 
             new Symfony\Cmf\Bundle\BlockBundle\CmfBlockBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
             new Sonata\CoreBundle\SonataCoreBundle(),
             new Sonata\jQueryBundle\SonatajQueryBundle(),
@@ -111,6 +113,35 @@ pugx_cmf_page_bundle:
     resource: "@PUGXCmfPageBundle/Resources/config/routing.yml"
     type: yaml
 ```
+
+Now add the following parameters in the `app/config/parameters.yml`:
+
+```
+phpcr_backend:
+	type: doctrinedbal
+    connection: default
+    caches:
+        meta: doctrine_cache.providers.phpcr_meta
+        nodes: doctrine_cache.providers.phpcr_nodes
+phpcr_workspace: default
+phpcr_user: admin
+phpcr_password: admin
+locale: it # Feel free to use another locale but provided translations are only in italian for now
+```
+
+Finally you have to create the database, initialize the PHPCR repository and install web assets:
+
+```
+$ php app/console doctrine:database:create
+$ php app/console doctrine:phpcr:init:dbal
+$ php app/console doctrine:phpcr:repository:init
+$ php app/console assets:install
+```
+
+Usage
+-----
+
+Go to `/app_dev.php/admin/dashboard` and start using it.
 
 License
 -------
