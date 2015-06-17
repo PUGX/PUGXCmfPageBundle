@@ -1,13 +1,13 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: manuele
  * Date: 27/05/15
- * Time: 22:07
+ * Time: 22:07.
  */
 
 namespace PUGX\Cmf\PageBundle\Admin;
-
 
 use Cocur\Slugify\Slugify;
 use Sonata\AdminBundle\Datagrid\ListMapper;
