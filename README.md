@@ -96,6 +96,9 @@ Now you have to add Symfony CMF bundles and `PUGXCmfPageBundle` to your `AppKern
             new Symfony\Cmf\Bundle\CreateBundle\CmfCreateBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+                        
+            new Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
 
             new PUGX\Cmf\PageBundle\PUGXCmfPageBundle(),
             new Symfony\Cmf\Bundle\CoreBundle\CmfCoreBundle(),
