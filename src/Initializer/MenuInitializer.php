@@ -1,13 +1,13 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: manuele
  * Date: 28/05/15
- * Time: 19:45
+ * Time: 19:45.
  */
 
 namespace PUGX\Cmf\PageBundle\Initializer;
-
 
 use Doctrine\Bundle\PHPCRBundle\Initializer\InitializerInterface;
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
@@ -31,7 +31,7 @@ class MenuInitializer implements InitializerInterface
 
     /**
      * @param string $menuBasePath
-     * @param array $menus
+     * @param array  $menus
      */
     public function __construct($menuBasePath, array $menus = array())
     {
@@ -60,7 +60,7 @@ class MenuInitializer implements InitializerInterface
 
         foreach ($this->menus as $menuName => $menuLabel) {
             /** @var Menu $menu */
-            $menu = $dm->find($className, $this->menuBasePath . '/' . $menuName);
+            $menu = $dm->find($className, $this->menuBasePath.'/'.$menuName);
             if (!$menu) {
                 $menu = new $className();
             }

@@ -1,18 +1,17 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: manuele
  * Date: 23/05/15
- * Time: 20:48
+ * Time: 20:48.
  */
 
 namespace PUGX\Cmf\PageBundle\Admin;
 
-
 use Cocur\Slugify\Slugify;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrinePHPCRAdminBundle\Admin\Admin;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -62,7 +61,7 @@ class PageAdmin extends Admin
                 null,
                 array(
                     'associated_property' => 'path',
-                    'template' => 'PUGXCmfPageBundle:CRUD:list_routes.html.twig'
+                    'template' => 'PUGXCmfPageBundle:CRUD:list_routes.html.twig',
                 )
             )
         ;
@@ -74,6 +73,7 @@ class PageAdmin extends Admin
         $page = parent::getNewInstance();
         $root = $this->getModelManager()->find(null, $this->getRootPath());
         $page->setParentDocument($root);
+
         return $page;
     }
 }

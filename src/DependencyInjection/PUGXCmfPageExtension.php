@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\Yaml\Parser;
 
 /**
- * This is the class that loads and manages your bundle configuration
+ * This is the class that loads and manages your bundle configuration.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
@@ -56,6 +56,7 @@ class PUGXCmfPageExtension extends Extension implements PrependExtensionInterfac
         }
 
         $ymlParser = new Parser();
+
         return $ymlParser->parse(file_get_contents($file));
     }
 }

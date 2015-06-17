@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: manuele
  * Date: 23/05/15
- * Time: 18:15
+ * Time: 18:15.
  */
 
 namespace PUGX\Cmf\PageBundle\Document;
@@ -91,6 +92,7 @@ class Page implements HierarchyInterface, RouteReferrersInterface, MenuNodeRefer
 
     /**
      * @param mixed $parentDocument
+     *
      * @return $this|void
      */
     public function setParentDocument($parentDocument)

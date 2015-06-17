@@ -1,18 +1,19 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: manuele
  * Date: 04/06/15
- * Time: 08:36
+ * Time: 08:36.
  */
 
 namespace PUGX\Cmf\PageBundle\Document;
+
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCR;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
 
 /**
- * Class MenuNode
- * @package PUGX\Cmf\PageBundle\Document
+ * Class MenuNode.
  *
  * @PHPCR\Document(referenceable=true)
  */
@@ -45,6 +46,7 @@ class MenuNode extends \Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode
             $parent = $parent->getParentDocument();
         }
         $pathLabels = array_reverse($pathLabels);
+
         return $pathLabels;
     }
 }
