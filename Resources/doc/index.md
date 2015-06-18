@@ -35,7 +35,40 @@ This bundle has been tested on the following dependencies.
 
 Installation
 ------------
-Install Symfony2 standard edition and then add the dependency to this bundle in your `composer.json`:
+Install Symfony2 standard edition and ensure that the following parameters are in your `app/config/parameters.yml.dist`:
+
+```
+parameters:
+    database_driver:	pdo_mysql
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name:     symfony
+    database_user:     root
+    database_password: ~
+    # You should uncomment this if you want use pdo_sqlite
+    database_path: null
+
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
+
+    # A secret key that's used to generate certain security-related tokens
+    secret:            ThisTokenIsNotSoSecretChangeIt
+
+    phpcr_backend:
+        type: doctrinedbal
+        connection: default
+        caches:
+            meta: doctrine_cache.providers.phpcr_meta
+            nodes: doctrine_cache.providers.phpcr_nodes
+    phpcr_workspace: default
+    phpcr_user: admin
+    phpcr_password: admin
+    locale: it # Feel free to use another locale but provided translations are only in italian for now
+```
+
+Then and then add the dependency to this bundle in your `composer.json`:
 
 ```bash
 $ composer require pugx/cmf-page-bundle
@@ -103,21 +136,6 @@ Then add the routing to your application in the `app/config/routing.yml`:
 pugx_cmf_page_bundle:
     resource: "@PUGXCmfPageBundle/Resources/config/routing.yml"
     type: yaml
-```
-
-Now add the following parameters in the `app/config/parameters.yml`:
-
-```
-phpcr_backend:
-	type: doctrinedbal
-    connection: default
-    caches:
-        meta: doctrine_cache.providers.phpcr_meta
-        nodes: doctrine_cache.providers.phpcr_nodes
-phpcr_workspace: default
-phpcr_user: admin
-phpcr_password: admin
-locale: it # Feel free to use another locale but provided translations are only in italian for now
 ```
 
 Finally you have to create the database, initialize the PHPCR repository and install web assets:
