@@ -140,4 +140,8 @@ Go to `/app_dev.php/admin/dashboard` and start using it.
 
 License
 -------
-This bundle is under the MIT license. See the complete license text [here](http://opensource.org/licenses/MIT).
+This bundle is under the MIT license. See the complete license in the bundle:
+
+```
+Resources/meta/LICENSE
+```
