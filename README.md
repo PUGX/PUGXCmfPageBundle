@@ -39,15 +39,10 @@ This bundle has been tested on the following dependencies.
 Installation
 ------------
 
-Install Symfony2 standard edition and then add the dependency to this bundle in your `composer.json`.
+Install Symfony2 standard edition and then add the dependency to this bundle in your `composer.json`:
 
-```
-	// ...
-	"require": {
-		// ...
-        "pugx/cmf-page-bundle": "dev-master"
-    },
-    // ...
+```bash
+$ composer require pugx/cmf-page-bundle
 ```
 
 You also have to add `downloadCreateAndCkeditor` composer script handler to your `composer.json`:

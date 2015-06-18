@@ -1,6 +1,9 @@
 {
     "name": "pugx/cmf-page-bundle",
+    "type": "symfony-bundle",
     "description": "Pages management system built on top of Symfony CMF.",
+    "homepage": "http://pugx.org/",
+    "license": "MIT",
     "authors": [
         {
             "name": "Manuele Menozzi",
@@ -24,5 +27,10 @@
     },
     "autoload": {
         "psr-4": {"PUGX\\Cmf\\PageBundle\\": "src/"}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
     }
 }
