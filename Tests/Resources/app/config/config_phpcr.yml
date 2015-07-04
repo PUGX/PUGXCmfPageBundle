@@ -1,0 +1,65 @@
+imports:
+    - { resource: config.yml }
+
+parameters:
+    database_driver:    pdo_sqlite
+    database_host:      ~
+    database_port:      ~
+    database_name:      ~
+    database_user:      ~
+    database_password:  ~
+    database_path:      "%kernel.root_dir%/test.db"
+
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
+
+    # A secret key that's used to generate certain security-related tokens
+    secret:            ThisTokenIsNotSoSecretChangeIt
+
+    phpcr_backend:
+        type: doctrinedbal
+        connection: default
+        caches:
+            meta: doctrine_cache.providers.phpcr_meta
+            nodes: doctrine_cache.providers.phpcr_nodes
+    phpcr_workspace: default
+    phpcr_user: admin
+    phpcr_password: admin
+    locale: it # Feel free to use another locale but provided translations are only in italian for now
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.filesystem
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+        console:
+            type:   console
+            bubble: false
+            verbosity_levels:
+                VERBOSITY_VERBOSE: INFO
+                VERBOSITY_VERY_VERBOSE: DEBUG
+            channels: ["!doctrine"]
+        console_very_verbose:
+            type:   console
+            bubble: false
+            verbosity_levels:
+                VERBOSITY_VERBOSE: NOTICE
+                VERBOSITY_VERY_VERBOSE: NOTICE
+                VERBOSITY_DEBUG: DEBUG
+            channels: ["doctrine"]
+        # uncomment to get logging in your browser
+        # you may have to allow bigger header sizes in your Web server configuration
+        #firephp:
+        #    type:   firephp
+        #    level:  info
+        #chromephp:
+        #    type:   chromephp
+        #    level:  info

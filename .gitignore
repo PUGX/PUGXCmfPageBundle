@@ -1,2 +1,5 @@
 /vendor/
 composer.lock
+Tests/Resources/app/cache
+Tests/Resources/app/logs
+Tests/Resources/app/test.db

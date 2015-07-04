@@ -1,0 +1,3 @@
+pugx_cmf_page_bundle:
+    resource: "@PUGXCmfPageBundle/Resources/config/routing.yml"
+    type: yaml
