@@ -1,7 +1,7 @@
 <?php
 namespace PUGX\Cmf\Tests\WebTest;
 
-use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
+use PUGX\Cmf\PageBundle\Test\IsolatedTestCase;
 
 /**
  * Created by PhpStorm.
@@ -10,7 +10,7 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
  * Time: 11:54
  */
 
-class AdminDashboardTest extends BaseTestCase
+class AdminDashboardTest extends IsolatedTestCase
 {
 
     public function testDashboardPage()
