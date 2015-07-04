@@ -13,16 +13,18 @@ use Doctrine\Bundle\PHPCRBundle\Initializer\InitializerInterface;
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use Doctrine\ODM\PHPCR\Document\Generic;
 use Doctrine\ODM\PHPCR\DocumentManager;
+use Knp\Menu\Provider\MenuProviderInterface;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
+use Symfony\Cmf\Bundle\MenuBundle\Provider\PhpcrMenuProvider;
 
 class MenuInitializer implements InitializerInterface
 {
     const MENU_DOCUMENT_CLASS_NAME = 'Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu';
 
     /**
-     * @var string
+     * @var PhpcrMenuProvider
      */
-    protected $menuBasePath;
+    protected $menuProvider;
 
     /**
      * @var array
@@ -30,12 +32,12 @@ class MenuInitializer implements InitializerInterface
     protected $menus;
 
     /**
-     * @param string $menuBasePath
-     * @param array  $menus
+     * @param $menuProvider
+     * @param array $menus
      */
-    public function __construct($menuBasePath, array $menus = array())
+    public function __construct(PhpcrMenuProvider $menuProvider, array $menus = array())
     {
-        $this->menuBasePath = $menuBasePath;
+        $this->menuProvider = $menuProvider;
         $this->menus = $menus;
     }
 
@@ -52,15 +54,16 @@ class MenuInitializer implements InitializerInterface
         /** @var DocumentManager $dm */
         $dm = $registry->getManagerForClass($className);
         /** @var Generic $parent */
-        $parent = $dm->find(null, $this->menuBasePath);
+        $menuRoot = $this->menuProvider->getMenuRoot();
+        $parent = $dm->find(null, $menuRoot);
 
         if (!$parent) {
-            throw new \InvalidArgumentException("Cannot find menu base path '{$this->menuBasePath}'.");
+            throw new \InvalidArgumentException("Cannot find menu base path '{$this->menuProvider}'.");
         }
 
         foreach ($this->menus as $menuName => $menuLabel) {
             /** @var Menu $menu */
-            $menu = $dm->find($className, $this->menuBasePath.'/'.$menuName);
+            $menu = $dm->find($className, $menuRoot .'/'.$menuName);
             if (!$menu) {
                 $menu = new $className();
             }
