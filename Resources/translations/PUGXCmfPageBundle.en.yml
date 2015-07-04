@@ -1,0 +1,18 @@
+dashboard:
+  cmf: Content Management System
+  label_page: Page
+
+breadcrumb:
+  link_page_list: List "Pages"
+
+list:
+  label_title: Title
+  label_menu_nodes: Menu Items
+  label_routes: Routes
+
+form:
+  group_general: General
+  group_menu: Menu
+  label_title: Title
+  label_content: Content
+  label_menu_nodes: Menu Items

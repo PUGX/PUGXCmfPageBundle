@@ -1,0 +1,21 @@
+dashboard:
+  cmf: Content Management System
+  label_menu_node: Menu Item
+
+breadcrumb:
+  link_menu_node_list: List "Menu Items"
+
+list:
+  label_id: ID
+  label_name: Name
+  label_label: Label
+  label_uri: URI
+  label_route: Route
+  label_parent_path_label: Parent Path
+
+form:
+  group_general: General
+  label_parent: Parent
+  label_label: Label
+  label_uri: URI
+  label_content: Content
