@@ -11,7 +11,7 @@ services:
       tags:
         - { name: doctrine_phpcr.initializer }
       arguments:
-        - @cmf_menu.provider # TODO: usare stesso parametro passato a cmf_menu come base path
+        - @cmf_menu.provider
         - { main: "Main Menu", footer: "Footer Menu" } # TODO: rendere questo array come parametro esterno
   pugx_cmf_page.generic_controller:
     class: PUGX\Cmf\PageBundle\Controller\GenericController
