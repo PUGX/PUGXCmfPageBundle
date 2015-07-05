@@ -12,3 +12,6 @@ framework:
     profiler:        { only_exceptions: false }
     templating:
         engines: ['twig']
+
+pugx_cmf_page:
+    menu: { main: "Main Menu", footer: "Footer Menu" }

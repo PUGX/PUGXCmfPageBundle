@@ -130,6 +130,13 @@ Now you have to add Symfony CMF bundles and `PUGXCmfPageBundle` to your `AppKern
 
 Pay attention that `CmfCoreBundle` must be loaded after any bundle which prepend config (such as `PUGXCmfPageBundle`) because in `CmfCoreExtension::prepend()` it copies configuration for others CMF bundles. So because `PUGXCmfPageBundle` would prepend configuration for `cmf_core` it must be loaded before `CmfCoreBundle` to correctly copy such config on other CMF bundles.
 
+Configure which menus your site requires by adding the proper configuration in your `app/config/config.yml`:
+
+```
+pugx_cmf_page:
+    menu: { main: "Main Menu", footer: "Footer Menu" }
+```
+
 Then add the routing to your application in the `app/config/routing.yml`:
 
 ```

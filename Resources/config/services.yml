@@ -12,7 +12,7 @@ services:
         - { name: doctrine_phpcr.initializer }
       arguments:
         - @cmf_menu.provider
-        - { main: "Main Menu", footer: "Footer Menu" } # TODO: rendere questo array come parametro esterno
+        - %pugx_cmf_page.menu%
   pugx_cmf_page.generic_controller:
     class: PUGX\Cmf\PageBundle\Controller\GenericController
     arguments:
