@@ -29,6 +29,26 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertEquals('Lorem ipsum dolor', trim($crawler->filter('p')->text()));
     }
 
+    public function testEditPage()
+    {
+        $this->loadFixtures(
+            array('PUGX\Cmf\PageBundle\Tests\WebTest\DataFixtures\PageAdminTest\TestEditPageFixture')
+        );
+
+        $client = static::createClient();
+        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+
+        $this->updatePage(
+            $client,
+            '/cms/content',
+            'to-be-edited',
+            array('page[title]' => 'Now it\'s changed!'),
+            'now-it-s-changed'
+        );
+
+        $this->goToPageListAndAssertData($client, array(array('Now it\'s changed!', '', '/now-it-s-changed')));
+    }
+
     /**
      * @param $client
      * @param $title
@@ -86,6 +106,34 @@ class PageAdminTest extends IsolatedTestCase
                 );
             }
         }
+    }
+
+    /**
+     * @param $client
+     * @param $parentPath
+     * @param $nodeName
+     * @param $editData
+     * @param $expectedUpdatedNodeName
+     */
+    private function updatePage($client, $parentPath, $nodeName, $editData, $expectedUpdatedNodeName)
+    {
+        $nodePath = $parentPath . '/' . $nodeName;
+        $expectedUpdatedPath = $parentPath . '/' . $expectedUpdatedNodeName;
+        $crawler = $client->request('GET', '/admin/cmf/page/page' . $nodePath . '/edit?uniqid=page');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $form = $crawler->selectButton('Update')->form();
+        $form->setValues($editData);
+        $client->submit($form);
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $crawler = $client->followRedirect();
+        $this->assertContains(
+            '/admin/cmf/page/page' . $expectedUpdatedPath . '/edit',
+            $client->getRequest()->getUri()
+        );
+        $this->assertContains(
+            'Item "' . $expectedUpdatedNodeName . '" has been successfully updated.',
+            $crawler->filter('.alert.alert-success')->text()
+        );
     }
 
 }
