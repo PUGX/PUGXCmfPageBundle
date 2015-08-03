@@ -20,8 +20,7 @@ class AdminDashboardTest extends IsolatedTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $cmsBox = $crawler->filter('.right-side .cms-block');
         $this->assertEquals('Content Management System', $cmsBox->filter('.box-header h3')->text());
-        $this->assertCount(2, $cmsBox->filter('.box-body table tr'));
-        $this->assertContains('Menu Item', $cmsBox->filter('.box-body table tr')->eq(0)->filter('td')->eq(0)->text());
-        $this->assertContains('Page', $cmsBox->filter('.box-body table tr')->eq(1)->filter('td')->eq(0)->text());
+        $this->assertCount(1, $cmsBox->filter('.box-body table tr'));
+        $this->assertContains('Page', $cmsBox->filter('.box-body table tr')->eq(0)->filter('td')->eq(0)->text());
     }
 }

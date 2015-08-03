@@ -55,6 +55,15 @@ sonata_block:
         sonata.admin.block.admin_list:
             contexts: [admin]
 
+sonata_admin:
+    dashboard:
+        groups:
+            cms_content:
+                label: dashboard.cmf
+                label_catalogue: PUGXCmfPageBundle
+                items:
+                    - pugx_cmf_page.page_admin
+
 # Cmf Create Configuration
 fos_rest:
     view:
