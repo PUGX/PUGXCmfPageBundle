@@ -1,5 +1,6 @@
 dashboard:
   cmf: Content Management System
+  menu: Site Menu
   label_page: Page
 
 breadcrumb:

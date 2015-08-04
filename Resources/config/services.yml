@@ -19,6 +19,14 @@ services:
       - @templating
       - PUGXCmfPageBundle:Document:default.html.twig
       - @fos_rest.view_handler
+  pugx_cmf_page.menu_tree_block:
+    class: PUGX\Cmf\PageBundle\Block\MenuBlockService
+    tags:
+      - { name: sonata.block }
+    arguments:
+      - pugx_cmf_page.menu_tree_block
+      - @templating
+      - @cmf_menu.provider
   pugx_cmf_page.page_admin:
     class: PUGX\Cmf\PageBundle\Admin\PageAdmin
     tags:

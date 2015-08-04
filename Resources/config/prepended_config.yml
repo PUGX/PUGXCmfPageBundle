@@ -54,9 +54,16 @@ sonata_block:
         # Enable the SonataAdminBundle block
         sonata.admin.block.admin_list:
             contexts: [admin]
+        # Enable the Sonata Tree Browser block
+        pugx_cmf_page.menu_tree_block:
+            contexts: [admin]
 
 sonata_admin:
     dashboard:
+        blocks:
+            # display a dashboard block
+            - { position: left, type: sonata.admin.block.admin_list }
+            - { position: right, type: pugx_cmf_page.menu_tree_block }
         groups:
             cms_content:
                 label: dashboard.cmf
