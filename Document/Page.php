@@ -34,7 +34,7 @@ class Page implements HierarchyInterface, RouteReferrersInterface, MenuNodeRefer
     protected $name;
 
     /**
-     * @PHPCR\Parentdocument()
+     * @PHPCR\ParentDocument()
      */
     protected $parentDocument;
 
