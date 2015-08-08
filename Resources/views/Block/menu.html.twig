@@ -6,7 +6,7 @@
             <h3 class="box-title">{{ settings.title | trans({}, settings.label_catalogue) }}</h3>
         </div>
         <div class="box-body">
-            {% render controller('sonata.admin.doctrine_phpcr.tree_controller:treeAction', { 'root': settings.id, 'selected': settings.selected }) %}
+            {% render controller('sonata.admin.doctrine_phpcr.tree_controller:treeAction', { 'root': settings.id, 'selected': settings.selected, 'tree_id': settings.tree_id }) %}
         </div>
     </div>
 {% endblock %}

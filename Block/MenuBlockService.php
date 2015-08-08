@@ -66,6 +66,7 @@ class MenuBlockService extends BaseBlockService
                 'title' => 'dashboard.menu',
                 'label_catalogue' => 'PUGXCmfPageBundle',
                 'template' => 'PUGXCmfPageBundle:Block:menu.html.twig',
+                'tree_id' => 'menu_admin',
             )
         );
     }

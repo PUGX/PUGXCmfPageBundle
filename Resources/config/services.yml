@@ -39,6 +39,17 @@ services:
       - [ setRouteBuilder, [@sonata.admin.route.path_info_slashes] ]
       - [ setRootPath, [/cms/content] ]
 
+  # Overridden to use PUGXCmfPageBundle:Tree:tree.html.twig template
+  sonata.admin.doctrine_phpcr.tree_controller:
+    class: Sonata\DoctrinePHPCRAdminBundle\Controller\TreeController
+    arguments:
+      - @sonata.admin.doctrine_phpcr.phpcr_odm_tree
+      - PUGXCmfPageBundle:Tree:tree.html.twig
+      - %sonata_admin_doctrine_phpcr.tree_block.defaults%
+      - %sonata_admin_doctrine_phpcr.tree_confirm_move%
+    calls:
+      - [ setContainer, [@service_container] ]
+
 #    pugx_cmf_page.example:
 #        class: PUGX\Cmf\PageBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
