@@ -9,10 +9,15 @@
 
 namespace PUGX\Cmf\PageBundle\Admin;
 
+use Sonata\AdminBundle\Route\RouteCollection;
+
 class MenuAdmin extends \Symfony\Cmf\Bundle\MenuBundle\Admin\MenuAdmin
 {
-    public function hasRoute($name)
+    /**
+     * @param RouteCollection $collection
+     */
+    protected function configureRoutes(RouteCollection $collection)
     {
-        return false;
+        $collection->clear();
     }
 }
