@@ -1,6 +1,7 @@
 dashboard:
   cmf: Sistema di Gestione Contenuti
   menu: Menù del Sito
+  menu_help_text: "Puoi trascinare la voci di menù per riordinarle. Puoi modificare una voce di menù cliccandoci sopra. Fai click con il tasto destro per creare nuove voci di menù."
   label_page: Pagina
 
 breadcrumb:

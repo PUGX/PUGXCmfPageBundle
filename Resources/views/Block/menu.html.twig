@@ -6,6 +6,9 @@
             <h3 class="box-title">{{ settings.title | trans({}, settings.label_catalogue) }}</h3>
         </div>
         <div class="box-body">
+            <p class="help-block">
+                {{ 'dashboard.menu_help_text' | trans({}, settings.label_catalogue) }}
+            </p>
             {% render controller('sonata.admin.doctrine_phpcr.tree_controller:treeAction', { 'root': settings.id, 'selected': settings.selected, 'tree_id': settings.tree_id }) %}
         </div>
     </div>

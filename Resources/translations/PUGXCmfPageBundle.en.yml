@@ -1,6 +1,7 @@
 dashboard:
   cmf: Content Management System
   menu: Site Menu
+  menu_help_text: "You can drag n' drop to sort menu items. You can edit a menu item by clicking on it. Right click to create new items."
   label_page: Page
 
 breadcrumb:
