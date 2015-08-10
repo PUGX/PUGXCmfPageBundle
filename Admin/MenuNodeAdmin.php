@@ -25,6 +25,17 @@ class MenuNodeAdmin extends \Symfony\Cmf\Bundle\MenuBundle\Admin\MenuNodeAdmin
             ->remove('name')
             ->remove('linkType')
             ->remove('route')
+            ->with('form.group_general')
+                ->add(
+                    'parent',
+                    'doctrine_phpcr_odm_tree',
+                    array(
+                        'root_node' => $this->menuRoot,
+                        'select_root_node' => false, // <- Rewritten select root node to false
+                        'choice_list' => array(),
+                    )
+                )
+            ->end()
             ->getFormBuilder()
             ->addEventListener(
                 FormEvents::SUBMIT,
