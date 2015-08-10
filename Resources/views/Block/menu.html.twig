@@ -10,6 +10,17 @@
                 {{ 'dashboard.menu_help_text' | trans({}, settings.label_catalogue) }}
             </p>
             {% render controller('sonata.admin.doctrine_phpcr.tree_controller:treeAction', { 'root': settings.id, 'selected': settings.selected, 'tree_id': settings.tree_id }) %}
+            <hr />
+            <div class="text-right">
+                <a href="{{ menu_node_admin.generateUrl('list') }}" class="btn btn-default">
+                    <i class="glyphicon glyphicon-list"></i>
+                    {{ 'dashboard.menu_item_list_button_label' | trans({}, settings.label_catalogue) }}
+                </a>
+                <a href="{{ menu_node_admin.generateUrl('create') }}" class="btn btn-primary">
+                    <i class="fa fa-plus-circle"></i>
+                    {{ 'dashboard.menu_item_create_button_label' | trans({}, settings.label_catalogue) }}
+                </a>
+            </div>
         </div>
     </div>
 {% endblock %}

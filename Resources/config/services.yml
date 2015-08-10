@@ -23,10 +23,12 @@ services:
     class: PUGX\Cmf\PageBundle\Block\MenuBlockService
     tags:
       - { name: sonata.block }
+    scope: prototype
     arguments:
       - pugx_cmf_page.menu_tree_block
       - @templating
       - @cmf_menu.provider
+      - @cmf_menu.node_admin
   pugx_cmf_page.page_admin:
     class: PUGX\Cmf\PageBundle\Admin\PageAdmin
     tags:

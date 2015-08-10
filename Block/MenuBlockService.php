@@ -9,6 +9,7 @@
 namespace PUGX\Cmf\PageBundle\Block;
 
 
+use PUGX\Cmf\PageBundle\Admin\MenuNodeAdmin;
 use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -22,16 +23,26 @@ class MenuBlockService extends BaseBlockService
      * @var PhpcrMenuProvider
      */
     private $menuProvider;
+    /**
+     * @var MenuNodeAdmin
+     */
+    private $menuNodeAdmin;
 
     /**
      * @param string $name
      * @param EngineInterface $templating
      * @param PhpcrMenuProvider $menuProvider
+     * @param MenuNodeAdmin $menuNodeAdmin
      */
-    public function __construct($name, EngineInterface $templating, PhpcrMenuProvider $menuProvider)
-    {
+    public function __construct(
+        $name,
+        EngineInterface $templating,
+        PhpcrMenuProvider $menuProvider,
+        MenuNodeAdmin $menuNodeAdmin
+    ) {
         parent::__construct($name, $templating);
         $this->menuProvider = $menuProvider;
+        $this->menuNodeAdmin = $menuNodeAdmin;
     }
 
     /**
@@ -50,6 +61,7 @@ class MenuBlockService extends BaseBlockService
                 'block_context' => $blockContext,
                 'block' => $blockContext->getBlock(),
                 'settings' => $settings,
+                'menu_node_admin' => $this->menuNodeAdmin
             ),
             $response
         );
