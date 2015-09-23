@@ -121,3 +121,5 @@ sonata_doctrine_phpcr_admin:
         PUGX\Cmf\PageBundle\Document\Page:
             valid_children:
                 - all
+    templates:
+        form: ['PUGXCmfPageBundle:Form:form_admin_fields.html.twig']

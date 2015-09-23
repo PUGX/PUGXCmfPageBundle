@@ -1,0 +1,228 @@
+{% extends 'SonataAdminBundle:Form:form_admin_fields.html.twig' %}
+
+{# Custom Sonata Admin Extension #}
+{% block sonata_admin_phpcr_one_to_one_widget %}
+    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_phpcr_one_to_one.html.twig' %}
+{% endblock %}
+
+{% block sonata_admin_phpcr_many_to_many_widget %}
+    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_phpcr_many_to_many.html.twig' %}
+{% endblock %}
+
+{% block sonata_admin_phpcr_many_to_one_widget %}
+    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_phpcr_many_to_one.html.twig' %}
+{% endblock %}
+
+{% block sonata_admin_phpcr_one_to_many_widget %}
+    {% include 'PUGXCmfPageBundle:CRUD:edit_phpcr_one_to_many.html.twig' %}
+{% endblock %}
+
+{% block sonata_type_model_widget %}
+
+    {#
+        This is not the best way to do if
+        TODO : improve this part
+    #}
+
+    {#model {{ sonata_admin.field_description.mappingtype }}#}
+
+    {% if sonata_admin.field_description is empty %}
+        {{ block('choice_widget') }}
+    {% elseif sonata_admin.field_description.mappingtype == 'child' %}
+        {{ block('sonata_admin_phpcr_one_to_one_widget') }}
+    {% elseif sonata_admin.field_description.mappingtype == 2 %}
+        {{ block('sonata_admin_phpcr_many_to_one_widget') }}
+    {% elseif sonata_admin.field_description.mappingtype == 8 %}
+        {{ block('sonata_admin_phpcr_many_to_many_widget') }}
+    {% elseif sonata_admin.field_description.mappingtype == 4 or sonata_admin.field_description.mappingtype == 'children' %}
+        {{ block('sonata_admin_phpcr_one_to_many_widget') }}
+    {% else %}
+        {#INVALID MODE : {{ id }}#}
+        {{ block('choice_widget') }}
+    {% endif %}
+{% endblock %}
+
+{% block sonata_type_model_list_widget %}
+
+    {% set jsId = id|replace({'-': '_'}) %}
+
+    <div id="field_container_{{ id }}" class="field-container">
+        <span id="field_widget_{{ id }}" >
+            {% if sonata_admin.field_description.associationadmin.id(sonata_admin.value) %}
+                {% render url('sonata_admin_short_object_information', {
+                    'code':     sonata_admin.field_description.associationadmin.code,
+                    'objectId': sonata_admin.field_description.associationadmin.id(sonata_admin.value),
+                    'uniqid':   sonata_admin.field_description.associationadmin.uniqid
+                }) %}
+            {% elseif sonata_admin.field_description.options.placeholder is defined and sonata_admin.field_description.options.placeholder %}
+                <span class="inner-field-short-description">
+                    {{ sonata_admin.field_description.options.placeholder|trans({}, 'SonataAdminBundle') }}
+                </span>
+            {% endif %}
+        </span>
+        <span style="display: none" >
+            {{ form_widget(form) }}
+        </span>
+
+        <span id="field_actions_{{ id }}" class="field-actions">
+
+            {% if sonata_admin.field_description.associationadmin.hasroute('list') and sonata_admin.field_description.associationadmin.isGranted('LIST') and btn_list %}
+
+                <a  href="{{ sonata_admin.field_description.associationadmin.generateUrl('list') }}"
+                    onclick="return start_field_dialog_form_list_{{ jsId }}(this);"
+                    class="btn btn-info btn-sm btn-outline sonata-ba-action"
+                    title="{{ btn_list|trans({}, btn_catalogue) }}"
+                    >
+                    <i class="icon-list fa fa-list"></i>
+                    {{ btn_list|trans({}, btn_catalogue) }}
+                </a>
+            {% endif %}
+
+            {% if sonata_admin.field_description.associationadmin.hasroute('create') and sonata_admin.field_description.associationadmin.isGranted('CREATE') and btn_add %}
+                <a  href="{{ sonata_admin.field_description.associationadmin.generateUrl('create') }}"
+                    onclick="return start_field_dialog_form_add_{{ jsId }}(this);"
+                    class="btn btn-success btn-sm btn-outline sonata-ba-action"
+                    title="{{ btn_add|trans({}, btn_catalogue) }}"
+                    >
+                    <i class="icon-plus fa fa-plus-circle"></i>
+                    {{ btn_add|trans({}, btn_catalogue) }}
+                </a>
+            {% endif %}
+
+            {% if sonata_admin.field_description.associationadmin.hasRoute('delete') and sonata_admin.field_description.associationadmin.isGranted('DELETE') and btn_delete %}
+                <a  href=""
+                    onclick="return remove_selected_element_{{ jsId }}(this);"
+                    class="btn btn-danger btn-sm btn-outline sonata-ba-action"
+                    title="{{ btn_delete|trans({}, btn_catalogue) }}"
+                    >
+                    <i class="icon-off fa fa-minus-circle"></i>
+                    {{ btn_delete|trans({}, btn_catalogue) }}
+                </a>
+            {% endif %}
+        </span>
+
+        <div class="container sonata-ba-modal sonata-ba-modal-edit-one-to-one" style="display: none" id="field_dialog_{{ id }}">
+
+        </div>
+    </div>
+
+    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_phpcr_many_association_script.html.twig' %}
+{% endblock %}
+
+{% block sonata_type_admin_widget %}
+    {#admin {{ sonata_admin.field_description.mappingtype }}#}
+    {% if sonata_admin.field_description.mappingtype == 1 or sonata_admin.field_description.mappingtype == 'child' %}
+        {{ block('sonata_admin_phpcr_one_to_one_widget') }}
+    {% elseif sonata_admin.field_description.mappingtype == 2 %}
+        {{ block('sonata_admin_phpcr_many_to_one_widget') }}
+    {% elseif sonata_admin.field_description.mappingtype == 8 %}
+        {{ block('sonata_admin_phpcr_many_to_many_widget') }}
+    {% elseif sonata_admin.field_description.mappingtype == 4 or sonata_admin.field_description.mappingtype == 'children' %}
+        {{ block('sonata_admin_phpcr_one_to_many_widget') }}
+    {% else %}
+        INVALID MODE : {{ id }}
+    {% endif %}
+{% endblock %}
+
+{% block sonata_type_collection_widget %}
+    {% if sonata_admin.field_description.mappingtype == 4
+        or sonata_admin.field_description.mappingtype == 8
+        or sonata_admin.field_description.mappingtype == 'children'
+        or sonata_admin.field_description.mappingtype == 'referrers'
+    %}
+        {{ block('sonata_admin_phpcr_one_to_many_widget') }}
+    {% else %}
+        INVALID MODE : {{ id }} - type : sonata_type_collection - mapping : {{ sonata_admin.field_description.mappingtype }}
+    {% endif %}
+{% endblock %}
+
+{% block doctrine_phpcr_odm_tree_widget %}
+{% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        var treeState = AdminTree.generateTreeStateArray("{{ value }}");
+        var defaults = {% include 'SonataDoctrinePHPCRAdminBundle:Tree:routing_defaults.html.twig' with {'routing_defaults': routing_defaults} %};
+
+        SelectTree.initTree({
+            "selector": "#{{id}}-tree-selector",
+            "rootNode": "{{ root_node }}",
+            "ajax": {
+                "children_url": Routing.generate("_cmf_tree_{{ tree.alias }}_children", defaults)
+            },
+            "output": "#{{id}}-tree-selector-output",
+            "reset": "#{{id}}-tree-reset",
+            "path": {
+                "expanded":     treeState,
+                "preloaded":    treeState
+            },
+            "selected": '{{ value }}',
+            "selectRootNode": {{ select_root_node ? 'true' : 'false' }},
+            "routing_defaults": defaults
+        });
+    })
+</script>
+
+<div id="{{id}}-tree-selector"></div>
+
+<div class="form-inline">
+    {% if value is empty %}
+        <input class="form-control" name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{ select_root_node ? root_node : ''}}" readonly="readonly">
+    {% else %}
+        <input class="form-control" name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{value}}" readonly="readonly">
+    {% endif %}
+
+    <button class="btn btn-mini" id={{id}}-tree-reset>{{ 'reset_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</button>
+</div>
+{% endblock %}
+
+{% block doctrine_phpcr_odm_tree_manager_widget %}
+    {{ render(controller('sonata.admin.doctrine_phpcr.tree_controller:treeAction', {
+        'root': form.vars.root,
+        'selected': false,
+        'create_in_overlay': form.vars.create_in_overlay,
+        'edit_in_overlay': form.vars.edit_in_overlay,
+        'delete_in_overlay': form.vars.delete_in_overlay
+    })) }}
+{% endblock %}
+
+{% block choice_field_mask_widget %}
+    {{ block('choice_widget') }}
+    {% set main_form_name = id|slice(0, id|length - name|length) %}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var allFields = {{ all_fields|json_encode|raw }};
+            var map = {{ map|json_encode|raw }};
+
+            showMaskChoiceEl = $('#{{ main_form_name }}{{ name }}');
+            showMaskChoiceEl.on('change', function () {
+                choice_field_mask_show($(this).val());
+            });
+
+            function choice_field_mask_show(val)
+            {
+                var controlGroupIdFunc = function (field) {
+                    return '#sonata-ba-field-container-{{ main_form_name }}' + field;
+                };
+
+                if (map[val] == undefined) {
+                    $.each(allFields, function (i, field) {
+                        $(controlGroupIdFunc(field)).show();
+                    });
+
+                    return;
+                }
+
+                $.each(allFields, function (i, field) {
+                    $(controlGroupIdFunc(field)).hide();
+                });
+
+                $.each(map[val], function (i, field) {
+                    $(controlGroupIdFunc(field)).show();
+                });
+            }
+
+            choice_field_mask_show(showMaskChoiceEl.val());
+        });
+    </script>
+{% endblock %}
