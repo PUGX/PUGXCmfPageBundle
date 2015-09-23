@@ -67,9 +67,14 @@ file that was distributed with this source code.
                                 <div class="panel-heading" role="tab" id="headingOne">
                                     <h4 class="panel-title">
                                         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ nested_group_field_name }}" aria-expanded="true" aria-controls="{{ nested_group_field_name }}">
+                                            {% set titleChildren = 'title' %}
                                             {% if nested_group_field_name %}
                                                 <small><span class="glyphicon glyphicon-edit"></span></small>
-                                                {{ nested_group_field.children.title.vars.value }}
+                                                {% if nested_group_field.children[titleChildren] is defined %}
+                                                    {{ nested_group_field.children[titleChildren].vars.value }}
+                                                {% else %}
+                                                    {{ nested_group_field_name }}
+                                                {% endif %}
                                             {% else %}
                                                 <small><span class="glyphicon glyphicon-plus"></span></small>
                                                 {{ 'form.one_to_many.new_item'|trans({}, 'SonataDoctrinePHPCRAdmin') }}
