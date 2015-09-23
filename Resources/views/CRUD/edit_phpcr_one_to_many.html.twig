@@ -61,12 +61,12 @@ file that was distributed with this source code.
                         </table>
                     {% endif %}
                 {% elseif form.children|length > 0 %}
-                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel-group" id="accordion-{{ id }}" role="tablist" aria-multiselectable="true">
                         {% for nested_group_field_name, nested_group_field in form.children %}
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingOne">
                                     <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ nested_group_field_name }}" aria-expanded="true" aria-controls="{{ nested_group_field_name }}">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion-{{ id }}" href="#{{ nested_group_field_name }}" aria-expanded="true" aria-controls="{{ nested_group_field_name }}">
                                             {% set titleChildren = 'title' %}
                                             {% if nested_group_field_name %}
                                                 <small><span class="glyphicon glyphicon-edit"></span></small>
@@ -80,6 +80,11 @@ file that was distributed with this source code.
                                                 {{ 'form.one_to_many.new_item'|trans({}, 'SonataDoctrinePHPCRAdmin') }}
                                             {% endif %}
                                         </a>
+                                        {% if sonata_admin.field_description.options.sortable is defined %}
+                                            <a href="#" class="handle pull-right">
+                                                <span class="glyphicon glyphicon-resize-vertical"></span>
+                                            </a>
+                                        {% endif %}
                                     </h4>
                                 </div>
                                 <div id="{{ nested_group_field_name }}" class="panel-collapse collapse {% if not nested_group_field_name %}in{% endif %}" role="tabpanel" aria-labelledby="{{ nested_group_field_name }}">
@@ -125,37 +130,52 @@ file that was distributed with this source code.
 
             {# add code for the sortable options #}
             {% if sonata_admin.field_description.options.sortable is defined %}
-                <script type="text/javascript">
-                    jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody').sortable({
-                        axis: 'y',
-                        opacity: 0.6,
-                        items: 'tr',
-                        stop: apply_position_value_{{ id }}
-                    });
-
-                    function apply_position_value_{{ jsId }}() {
-                        // update the input value position
-                        jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody td.sonata-ba-td-{{ id }}-{{ sonata_admin.field_description.options.sortable }}').each(function(index, element) {
-                            // remove the sortable handler and put it back
-                            jQuery('span.sonata-ba-sortable-handler', element).remove();
-                            jQuery(element).append('<span class="sonata-ba-sortable-handler ui-icon ui-icon-grip-solid-horizontal"></span>');
-                            jQuery('input', element).hide();
+                {% if sonata_admin.inline == 'table' %}
+                    <script type="text/javascript">
+                        jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody').sortable({
+                            axis: 'y',
+                            opacity: 0.6,
+                            items: 'tr',
+                            stop: apply_position_value_{{ jsId }}
                         });
 
-                        jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody td.sonata-ba-td-{{ id }}-{{ sonata_admin.field_description.options.sortable }} input').each(function(index, value) {
-                            jQuery(value).val(index + 1);
-                        });
-                    }
+                        function apply_position_value_{{ jsId }}() {
+                            // update the input value position
+                            jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody td.sonata-ba-td-{{ id }}-{{ sonata_admin.field_description.options.sortable }}').each(function(index, element) {
+                                // remove the sortable handler and put it back
+                                jQuery('span.sonata-ba-sortable-handler', element).remove();
+                                jQuery(element).append('<span class="sonata-ba-sortable-handler ui-icon ui-icon-grip-solid-horizontal"></span>');
+                                jQuery('input', element).hide();
+                            });
 
-                    // refresh the sortable option when a new element is added
-                    jQuery('#sonata-ba-field-container-{{ id }}').bind('sonata.add_element', function() {
+                            jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody td.sonata-ba-td-{{ id }}-{{ sonata_admin.field_description.options.sortable }} input').each(function(index, value) {
+                                jQuery(value).val(index + 1);
+                            });
+                        }
+
+                        // refresh the sortable option when a new element is added
+                        jQuery('#sonata-ba-field-container-{{ id }}').bind('sonata.add_element', function() {
+                            apply_position_value_{{ jsId }}();
+                            jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody').sortable('refresh');
+                        });
+
                         apply_position_value_{{ jsId }}();
-                        jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody').sortable('refresh');
-                    });
 
-                    apply_position_value_{{ jsId }}();
+                    </script>
+                {% else %}
+                    <script type="text/javascript">
+                        jQuery('#accordion-{{ id }}').sortable({
+                            axis: 'y',
+                            opacity: 0.6,
+                            items: 'div.panel'
+                        });
 
-                </script>
+                        // refresh the sortable option when a new element is added
+                        jQuery('#accordion-{{ id }}').bind('sonata.add_element', function() {
+                            jQuery('#accordion-{{ id }}').sortable('refresh');
+                        });
+                    </script>
+                {% endif %}
             {% endif %}
 
             {# include association code #}
