@@ -63,21 +63,21 @@ file that was distributed with this source code.
                 {% elseif form.children|length > 0 %}
                     <div class="panel-group" id="accordion-{{ id }}" role="tablist" aria-multiselectable="true">
                         {% for nested_group_field_name, nested_group_field in form.children %}
+                            {% set isNew = true %}
+                            {% if nested_group_field.vars.data.id %}
+                                {% set isNew = false %}
+                            {% endif %}
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingOne">
                                     <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion-{{ id }}" href="#{{ nested_group_field_name }}" aria-expanded="true" aria-controls="{{ nested_group_field_name }}">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion-{{ id }}" href="#accordion-{{ id }}-{{ nested_group_field_name }}" aria-expanded="true" aria-controls="accordion-{{ id }}-{{ nested_group_field_name }}">
                                             {% set titleChildren = 'title' %}
-                                            {% if nested_group_field_name %}
-                                                <small><span class="glyphicon glyphicon-edit"></span></small>
-                                                {% if nested_group_field.children[titleChildren] is defined %}
-                                                    {{ nested_group_field.children[titleChildren].vars.value }}
-                                                {% else %}
-                                                    {{ nested_group_field_name }}
-                                                {% endif %}
-                                            {% else %}
+                                            {% if isNew %}
                                                 <small><span class="glyphicon glyphicon-plus"></span></small>
                                                 {{ 'form.one_to_many.new_item'|trans({}, 'SonataDoctrinePHPCRAdmin') }}
+                                            {% else %}
+                                                <small><span class="glyphicon glyphicon-edit"></span></small>
+                                                {{ nested_group_field.vars.data }}
                                             {% endif %}
                                         </a>
                                         {% if sonata_admin.field_description.options.sortable is defined %}
@@ -87,7 +87,7 @@ file that was distributed with this source code.
                                         {% endif %}
                                     </h4>
                                 </div>
-                                <div id="{{ nested_group_field_name }}" class="panel-collapse collapse {% if not nested_group_field_name %}in{% endif %}" role="tabpanel" aria-labelledby="{{ nested_group_field_name }}">
+                                <div id="accordion-{{ id }}-{{ nested_group_field_name }}" class="panel-collapse collapse {% if isNew %}in{% endif %}" role="tabpanel" aria-labelledby="accordion-{{ id }}-{{ nested_group_field_name }}">
                                     <div class="panel-body">
                                         {% for field_name, nested_field in nested_group_field.children %}
                                             {% if sonata_admin.field_description.associationadmin.formfielddescriptions[field_name] is defined %}
