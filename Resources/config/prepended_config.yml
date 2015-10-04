@@ -89,6 +89,8 @@ cmf_routing:
             phpcr:
                 route_basepath: /cms/routes
         generic_controller: "pugx_cmf_page.generic_controller:indexAction"
+        controllers_by_type:
+            cmf_routing_auto.redirect: cmf_routing.redirect_controller:redirectAction
 
 # Cmf Auto Routing Configuration
 cmf_routing_auto:

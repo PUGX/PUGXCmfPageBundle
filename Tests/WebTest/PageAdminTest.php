@@ -49,6 +49,39 @@ class PageAdminTest extends IsolatedTestCase
         $this->goToPageListAndAssertData($client, array(array('Now it\'s changed!', '', '/now-it-s-changed')));
     }
 
+    public function testChangePageTitleShouldKeepOldRouteWhichRedirectsToNewRoute()
+    {
+        $this->loadFixtures(
+            array('PUGX\Cmf\PageBundle\Tests\WebTest\DataFixtures\PageAdminTest\TestEditPageFixture')
+        );
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/to-be-edited');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals('To be edited', trim($crawler->filter('h2')->text()));
+        $this->assertEquals('This page has to be edited soon.', trim($crawler->filter('p')->text()));
+
+        $this->updatePage(
+            $client,
+            '/cms/content',
+            'to-be-edited',
+            array('page[title]' => 'New route'),
+            'new-route'
+        );
+
+        $crawler = $client->request('GET', '/new-route');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals('New route', trim($crawler->filter('h2')->text()));
+        $this->assertEquals('This page has to be edited soon.', trim($crawler->filter('p')->text()));
+
+        $client->request('GET', '/to-be-edited');
+        $this->assertTrue($client->getResponse()->isRedirection());
+        $crawler = $client->followRedirect();
+        $this->assertContains('/new-route', $client->getRequest()->getUri());
+        $this->assertEquals('New route', trim($crawler->filter('h2')->text()));
+        $this->assertEquals('This page has to be edited soon.', trim($crawler->filter('p')->text()));
+    }
+
     /**
      * @param $client
      * @param $title

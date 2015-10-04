@@ -2,3 +2,5 @@ PUGX\Cmf\PageBundle\Document\Page:
     uri_schema: /{title}
     token_providers:
         title: [content_method, { method: getTitle }]
+    conflict_resolver: auto_increment
+    defunct_route_handler: leave_redirect
