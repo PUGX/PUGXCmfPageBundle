@@ -18,5 +18,5 @@ form:
   group_general: General
   group_menu: Menu
   label_title: Title
-  label_content: Content
+  label_text: Text
   label_menu_nodes: Menu Items
