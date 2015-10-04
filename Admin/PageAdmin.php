@@ -26,7 +26,7 @@ class PageAdmin extends Admin
         $form
             ->with('form.group_general')
                 ->add('title', 'text')
-                ->add('content', 'textarea')
+                ->add('text', 'textarea')
             ->end()
             ->with('form.group_menu')
                 ->add(

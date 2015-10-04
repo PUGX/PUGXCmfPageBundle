@@ -59,7 +59,7 @@ class Page implements HierarchyInterface, RouteReferrersInterface, MenuNodeRefer
     /**
      * @PHPCR\String()
      */
-    protected $content;
+    protected $text;
 
     public function __construct()
     {
@@ -154,17 +154,17 @@ class Page implements HierarchyInterface, RouteReferrersInterface, MenuNodeRefer
     /**
      * @return mixed
      */
-    public function getContent()
+    public function getText()
     {
-        return $this->content;
+        return $this->text;
     }
 
     /**
-     * @param mixed $content
+     * @param mixed $text
      */
-    public function setContent($content)
+    public function setText($text)
     {
-        $this->content = $content;
+        $this->text = $text;
     }
 
     /**
@@ -343,5 +343,20 @@ class Page implements HierarchyInterface, RouteReferrersInterface, MenuNodeRefer
     public function getRouteKey()
     {
         return null;
+    }
+
+    /**
+     * Get the content document this route entry stands for. If non-null,
+     * the ControllerClassMapper uses it to identify a controller and
+     * the content is passed to the controller.
+     *
+     * If there is no specific content for this url (i.e. its an "application"
+     * page), may return null.
+     *
+     * @return object the document or entity this route entry points to
+     */
+    public function getContent()
+    {
+        return $this;
     }
 }

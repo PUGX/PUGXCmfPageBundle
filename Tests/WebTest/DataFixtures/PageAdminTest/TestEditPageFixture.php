@@ -37,7 +37,7 @@ class TestEditPageFixture implements FixtureInterface
         $page->setParentDocument($contentNode);
         $page->setName('to-be-edited');
         $page->setTitle('To be edited');
-        $page->setContent('This page has to be edited soon.');
+        $page->setText('This page has to be edited soon.');
         $manager->persist($page);
         $manager->flush();
     }

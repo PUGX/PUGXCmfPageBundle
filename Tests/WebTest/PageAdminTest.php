@@ -85,16 +85,16 @@ class PageAdminTest extends IsolatedTestCase
     /**
      * @param $client
      * @param $title
-     * @param $content
+     * @param $text
      * @param $expectedSlug
      */
-    private function createPage($client, $title, $content, $expectedSlug)
+    private function createPage($client, $title, $text, $expectedSlug)
     {
         $crawler = $client->request('GET', '/admin/cmf/page/page/create?uniqid=page');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $form = $crawler->selectButton('Create')->form();
         $form['page[title]'] = $title;
-        $form['page[content]'] = $content;
+        $form['page[text]'] = $text;
         $client->submit($form);
 
         $this->assertTrue($client->getResponse()->isRedirect());
