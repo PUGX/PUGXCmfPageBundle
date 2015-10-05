@@ -17,6 +17,7 @@ use Symfony\Cmf\Bundle\MenuBundle\Model\MenuNodeReferrersInterface;
 use Symfony\Cmf\Component\Routing\RedirectRouteInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
+use Symfony\Cmf\Component\RoutingAuto\Model\AutoRouteInterface;
 use Symfony\Component\Routing\Route;
 
 /**
