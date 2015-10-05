@@ -209,7 +209,7 @@ class Page implements HierarchyInterface, RouteReferrersInterface, MenuNodeRefer
          * Auto routes are auto routes that don't redirect
          * Redirects are any route that redirects.
          */
-        $buckets = ['routes' => array(), 'autoRoutes' => array(), 'redirectRoutes' => array()];
+        $buckets = array('routes' => array(), 'autoRoutes' => array(), 'redirectRoutes' => array());
 
         //## Sort routes into their correct bucket.
         foreach ($this->routes as $route) {
