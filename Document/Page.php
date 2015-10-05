@@ -227,7 +227,7 @@ class Page implements HierarchyInterface, RouteReferrersInterface, MenuNodeRefer
         }
 
         //## Flatten the buckets into one array, routes, auto, then redirect
-        $orderedRoutes = [];
+        $orderedRoutes = array();
         array_walk_recursive(
             $buckets,
             function ($route) use (&$orderedRoutes) {
