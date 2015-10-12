@@ -43,7 +43,8 @@ class PageAdminTest extends IsolatedTestCase
             '/cms/content',
             'to-be-edited',
             array('page[title]' => 'Now it\'s changed!'),
-            'now-it-s-changed'
+            'now-it-s-changed',
+            'Now it\'s changed!'
         );
 
         $this->goToPageListAndAssertData($client, array(array('Now it\'s changed!', '', '/now-it-s-changed')));
@@ -66,7 +67,8 @@ class PageAdminTest extends IsolatedTestCase
             '/cms/content',
             'to-be-edited',
             array('page[title]' => 'New route'),
-            'new-route'
+            'new-route',
+            'New route'
         );
 
         $crawler = $client->request('GET', '/new-route');
@@ -105,7 +107,7 @@ class PageAdminTest extends IsolatedTestCase
         );
 
         $this->assertContains(
-            'Item "my-new-page" has been successfully created.',
+            "Item \"$title\" has been successfully created.",
             $crawler->filter('.alert.alert-success')->text()
         );
     }
@@ -147,8 +149,9 @@ class PageAdminTest extends IsolatedTestCase
      * @param $nodeName
      * @param $editData
      * @param $expectedUpdatedNodeName
+     * @param $expectedTitle
      */
-    private function updatePage($client, $parentPath, $nodeName, $editData, $expectedUpdatedNodeName)
+    private function updatePage($client, $parentPath, $nodeName, $editData, $expectedUpdatedNodeName, $expectedTitle)
     {
         $nodePath = $parentPath . '/' . $nodeName;
         $expectedUpdatedPath = $parentPath . '/' . $expectedUpdatedNodeName;
@@ -164,7 +167,7 @@ class PageAdminTest extends IsolatedTestCase
             $client->getRequest()->getUri()
         );
         $this->assertContains(
-            'Item "' . $expectedUpdatedNodeName . '" has been successfully updated.',
+            'Item "' . $expectedTitle . '" has been successfully updated.',
             $crawler->filter('.alert.alert-success')->text()
         );
     }
