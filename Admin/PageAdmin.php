@@ -23,6 +23,7 @@ class PageAdmin extends Admin
 
     protected function configureFormFields(FormMapper $form)
     {
+        $that = $this;
         $form
             ->with('form.group_general')
                 ->add('title', 'text')
@@ -39,13 +40,8 @@ class PageAdmin extends Admin
             ->getFormBuilder()
             ->addEventListener(
                 FormEvents::SUBMIT,
-                function (FormEvent $event) {
-                    /** @var Page $page */
-                    $page = $event->getData();
-                    if ($page->getTitle()) {
-                        $slugify = Slugify::create();
-                        $page->setName($slugify->slugify($page->getTitle()));
-                    }
+                function (FormEvent $event) use ($that) {
+                    $that->generatePageNodeName($event->getData());
                 }
             )
         ;
@@ -75,5 +71,30 @@ class PageAdmin extends Admin
         $page->setParentDocument($root);
 
         return $page;
+    }
+
+    public function generatePageNodeName(Page $page)
+    {
+        if ($page->getTitle()) {
+            $slugify = Slugify::create();
+            $slug = $slugify->slugify($page->getTitle());
+            $slug = $this->getAvailableSlug($page, $slug);
+            $page->setName($slug);
+        }
+    }
+
+    private function getAvailableSlug(Page $page, $slug)
+    {
+        $path = rtrim($page->getParentDocument()->getId(), '/');
+        if (!$this->getModelManager()->find(null, $path . '/' . $slug)) {
+            return $slug;
+        }
+        $matches = array();
+        if (preg_match('/(.*?)-(\d+)/', $slug, $matches)) {
+            $slug = $matches[1];
+            $increment = $matches[2];
+            return $this->getAvailableSlug($page, $slug . '-' . ++$increment);
+        }
+        return $this->getAvailableSlug($page, $slug . '-1');
     }
 }
