@@ -10,6 +10,13 @@ namespace PUGX\Cmf\Tests\WebTest;
 
 
 use PUGX\Cmf\PageBundle\Test\IsolatedTestCase;
+use Symfony\Component\BrowserKit\Client;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\Field\ChoiceFormField;
+use Symfony\Component\DomCrawler\Field\FileFormField;
+use Symfony\Component\DomCrawler\Field\InputFormField;
+use Symfony\Component\DomCrawler\Field\TextareaFormField;
+use Symfony\Component\DomCrawler\Form;
 
 class PageAdminTest extends IsolatedTestCase
 {
@@ -108,19 +115,55 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertEquals('Lorem ipsum dolor', trim($crawler->filter('p')->text()));
     }
 
+    public function testCreatePageWithMainMenuNode()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/my-new-page');
+        $this->assertFalse($client->getResponse()->isSuccessful());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+
+        $this->createPage(
+            $client,
+            'My New Page',
+            'Lorem ipsum dolor',
+            'my-new-page',
+            array(array('parent' => '/cms/menu/main', 'label' => 'New Page'))
+        );
+        $this->goToPageListAndAssertData($client, array(array('My New Page', 'Main Menu > New Page', '/my-new-page')));
+
+        $crawler = $client->request('GET', '/my-new-page');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals('My New Page', trim($crawler->filter('h2')->text()));
+        $this->assertEquals('Lorem ipsum dolor', trim($crawler->filter('p')->text()));
+        $this->assertCount(1, $crawler->filter('nav#menu-main>ul>li'));
+        $this->assertEquals('New Page', trim($crawler->filter('nav#menu-main>ul>li')->eq(0)->text()));
+        $this->assertContains(
+            '/my-new-page',
+            $crawler->filter('nav#menu-main>ul>li')->eq(0)->filter('a')->eq(0)->attr('href')
+        );
+    }
+
     /**
-     * @param $client
+     * @param Client $client
      * @param $title
      * @param $text
      * @param $expectedSlug
+     * @param null|array $menuNodes
      */
-    private function createPage($client, $title, $text, $expectedSlug)
+    private function createPage(Client $client, $title, $text, $expectedSlug, $menuNodes = null)
     {
         $crawler = $client->request('GET', '/admin/cmf/page/page/create?uniqid=page');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $form = $crawler->selectButton('Create')->form();
         $form['page[title]'] = $title;
         $form['page[text]'] = $text;
+        if ($menuNodes) {
+            foreach ($menuNodes as $i => $menuNode) {
+                $this->addMenuItemForm($form, 'pugx_cmf_page.page_admin', 'menuNodes');
+                $form["page[menuNodes][$i][parent]"] = $menuNode['parent'];
+                $form["page[menuNodes][$i][label]"] = $menuNode['label'];
+            }
+        }
         $client->submit($form);
 
         $this->assertTrue($client->getResponse()->isRedirect());
@@ -194,6 +237,51 @@ class PageAdminTest extends IsolatedTestCase
             'Item "' . $expectedTitle . '" has been successfully updated.',
             $crawler->filter('.alert.alert-success')->text()
         );
+    }
+
+    /**
+     * @param Form $form
+     * @param $code
+     * @param $elementId
+     * @return Crawler
+     */
+    private function addMenuItemForm(Form $form, $code, $elementId)
+    {
+        $ajaxClient = static::createClient();
+        $ajaxCrawler = $ajaxClient->request(
+            'POST',
+            '/admin/core/append-form-field-element',
+            array_merge(
+                $form->getPhpValues(),
+                array(
+                    'code' => $code,
+                    'elementId' => 'page_' . $elementId,
+                    'uniqid' => 'page'
+                )
+            )
+        );
+        foreach ($ajaxCrawler->filter('input') as $node) {
+            if ($node->attributes->getNamedItem('type')) {
+                if ($node->attributes->getNamedItem('type')->nodeValue == 'checkbox' ||
+                    $node->attributes->getNamedItem('type')->nodeValue == 'radio') {
+                    $form->set(new ChoiceFormField($node));
+                    continue;
+                }
+                if ($node->attributes->getNamedItem('type') == 'file') {
+                    $form->set(new FileFormField($node));
+                    continue;
+                }
+            }
+
+            $form->set(new InputFormField($node));
+        }
+        foreach ($ajaxCrawler->filter('select') as $node) {
+            $form->set(new ChoiceFormField($node));
+        }
+        foreach ($ajaxCrawler->filter('textarea') as $node) {
+            $form->set(new TextareaFormField($node));
+        }
+        return $ajaxCrawler;
     }
 
 }

@@ -34,7 +34,9 @@
                     {% block main_menu %}
                         <div class="row">
                             <div class="col-xs-12">
-                                {{ knp_menu_render('main') }}
+                                <nav id="menu-main">
+                                    {{ knp_menu_render('main') }}
+                                </nav>
                             </div>
                         </div>
                     {% endblock main_menu %}
