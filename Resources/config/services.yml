@@ -41,6 +41,12 @@ services:
       - [ setRouteBuilder, [@sonata.admin.route.path_info_slashes] ]
       - [ setRootPath, [/cms/content] ]
 
+  pugx_cmf_page.routing_auto.menu_path_provider:
+    class: PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\MenuPathTokenProvider
+    arguments: [ @cmf_routing_auto.slugifier ]
+    tags:
+      - { name: cmf_routing_auto.token_provider, alias: "menu_path" }
+
   # Overridden to use PUGXCmfPageBundle:Tree:tree.html.twig template
   sonata.admin.doctrine_phpcr.tree_controller:
     class: Sonata\DoctrinePHPCRAdminBundle\Controller\TreeController
