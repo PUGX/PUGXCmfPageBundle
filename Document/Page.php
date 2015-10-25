@@ -14,6 +14,9 @@ use Doctrine\ODM\PHPCR\HierarchyInterface;
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCR;
 use Knp\Menu\NodeInterface;
 use PUGX\Cmf\PageBundle\Routing\RouteReferrersRedirectToFirstRouteTrait;
+use PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\PrimaryMenuNodeProviderInterface;
+use PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\RouteTokenProviderInterface;
+use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode as PHPCRMenuNode;
 use Symfony\Cmf\Bundle\MenuBundle\Model\MenuNodeReferrersInterface;
 use Symfony\Cmf\Component\Routing\RedirectRouteInterface;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
@@ -21,7 +24,13 @@ use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 /**
  * @PHPCR\Document(referenceable=true)
  */
-class Page implements HierarchyInterface, RouteReferrersInterface, MenuNodeReferrersInterface, RedirectRouteInterface
+class Page implements
+    HierarchyInterface,
+    RouteReferrersInterface,
+    MenuNodeReferrersInterface,
+    RedirectRouteInterface,
+    RouteTokenProviderInterface,
+    PrimaryMenuNodeProviderInterface
 {
     use RouteReferrersRedirectToFirstRouteTrait;
 
@@ -203,5 +212,25 @@ class Page implements HierarchyInterface, RouteReferrersInterface, MenuNodeRefer
     public function __toString()
     {
         return (string)($this->getTitle() ?: $this->getName());
+    }
+
+    /**
+     * Returns MenuNode on which the MenuPathTokenProvider builds the route path.
+     *
+     * @return PHPCRMenuNode
+     */
+    public function providePrimaryMenuNode()
+    {
+        return $this->menuNodes->first();
+    }
+
+    /**
+     * Returns the string used by MenuPathTokenProvider to build the route path. It will be slugged automatically.
+     *
+     * @return string
+     */
+    public function provideRouteToken()
+    {
+        return $this->getTitle();
     }
 }

@@ -1,6 +1,6 @@
 PUGX\Cmf\PageBundle\Document\Page:
-    uri_schema: /{title}
+    uri_schema: /{menu_path}
     token_providers:
-        title: [content_method, { method: getTitle }]
+        menu_path: [menu_path, {}]
     conflict_resolver: auto_increment
     defunct_route_handler: leave_redirect

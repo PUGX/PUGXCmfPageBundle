@@ -143,6 +143,43 @@ class PageAdminTest extends IsolatedTestCase
         );
     }
 
+    public function testSubPageShouldHaveSubRoute()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/parent-page');
+        $this->assertFalse($client->getResponse()->isSuccessful());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $client->request('GET', '/parent-page/sub-page');
+        $this->assertFalse($client->getResponse()->isSuccessful());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+
+        $this->createPage(
+            $client,
+            'Parent Page',
+            'Lorem ipsum dolor',
+            'parent-page',
+            array(array('parent' => '/cms/menu/main', 'label' => 'Parent Page'))
+        );
+        $this->createPage(
+            $client,
+            'Sub Page',
+            'Lorem ipsum dolor',
+            'sub-page',
+            array(array('parent' => '/cms/menu/main/parent-page', 'label' => 'Sub Page'))
+        );
+        $this->goToPageListAndAssertData(
+            $client,
+            array(
+                array('Parent Page', 'Main Menu > Parent Page', '/parent-page'),
+                array('Sub Page', 'Main Menu > Parent Page > Sub Page', '/parent-page/sub-page'),
+            )
+        );
+        $crawler = $client->request('GET', '/parent-page');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $crawler = $client->request('GET', '/parent-page/sub-page');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+    }
+
     /**
      * @param Client $client
      * @param $title
