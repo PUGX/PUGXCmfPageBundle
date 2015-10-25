@@ -95,7 +95,7 @@ trait RouteReferrersRedirectToFirstRouteTrait
             }
         );
 
-        return $orderedRoutes;
+        return new ArrayCollection($orderedRoutes);
     }
 
     /**
@@ -124,7 +124,7 @@ trait RouteReferrersRedirectToFirstRouteTrait
         if (!$this->routes) {
             $this->routes = new ArrayCollection();
         }
-        return $this->routes->first();
+        return $this->getRoutes()->first();
     }
 
     /**
@@ -138,7 +138,7 @@ trait RouteReferrersRedirectToFirstRouteTrait
         if (!$this->routes) {
             $this->routes = new ArrayCollection();
         }
-        return $this->routes->first()->getName();
+        return $this->getRoutes()->first()->getName();
     }
 
     /**
