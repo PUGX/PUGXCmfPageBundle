@@ -56,6 +56,7 @@ class PageAdmin extends Admin
                 'routesWithoutRedirectRoutes',
                 null,
                 array(
+                    'label' => 'list.label_routes',
                     'associated_property' => 'path',
                     'template' => 'PUGXCmfPageBundle:CRUD:list_routes.html.twig',
                 )
