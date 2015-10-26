@@ -193,4 +193,17 @@ trait RouteReferrersRedirectToFirstRouteTrait
     {
         return $this;
     }
+
+    public function getRoutesWithoutRedirectRoutes()
+    {
+        $routes = array();
+        foreach ($this->getRoutes() as $route) {
+            if (($route instanceof AutoRouteInterface && !$route->getRedirectTarget()) &&
+                !$route instanceof RedirectRouteInterface
+            ) {
+                $routes[] = $route;
+            }
+        }
+        return $routes;
+    }
 }

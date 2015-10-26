@@ -89,6 +89,10 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertContains('/new-route', $client->getRequest()->getUri());
         $this->assertEquals('New route', trim($crawler->filter('h2')->text()));
         $this->assertEquals('This page has to be edited soon.', trim($crawler->filter('p')->text()));
+
+        $crawler = $this->goToPageListAndAssertData($client, array(array('New route', '', '/new-route')));
+        $routeCellText = $crawler->filter('table tbody tr')->eq(0)->filter('td')->eq(3)->text();
+        $this->assertNotContains('/to-be-edited', $routeCellText);
     }
 
     public function testCreatePageWithSameTitleOfOtherPage()
@@ -219,6 +223,7 @@ class PageAdminTest extends IsolatedTestCase
     /**
      * @param $client
      * @param $expectedData
+     * @return Crawler
      */
     private function goToPageListAndAssertData($client, $expectedData)
     {
@@ -245,6 +250,7 @@ class PageAdminTest extends IsolatedTestCase
                 );
             }
         }
+        return $crawler;
     }
 
     /**

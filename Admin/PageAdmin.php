@@ -53,7 +53,7 @@ class PageAdmin extends Admin
             ->addIdentifier('title')
             ->add('menuNodes')
             ->add(
-                'routes',
+                'routesWithoutRedirectRoutes',
                 null,
                 array(
                     'associated_property' => 'path',
