@@ -20,15 +20,28 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('pugx_cmf_page');
 
-        $info = 'Define a list of menus to be created for your site; ' .
-            'for example { main: "Main Menu", footer: "Footer Menu" }.';
         $rootNode
             ->children()
+                ->scalarNode('title')
+                    ->info('Define a title for the website (e.g. "My Awesome Site").')
+                    ->isRequired()
+                ->end()
+                ->scalarNode('admin_logo')
+                    ->info(
+                        'Define the website logo path relative to web document root ' .
+                        '(e.g. "bundles/pugxcmfpage/logo.png"). Will be used in the administrative interface.'
+                    )
+                    ->isRequired()
+                ->end()
                 ->arrayNode('menu')
-                ->info($info)
-                ->isRequired()
-                ->useAttributeAsKey('name')
-                ->prototype('scalar')
+                    ->info(
+                        'Define a list of menus to be created for your site; ' .
+                        'for example { main: "Main Menu", footer: "Footer Menu" }.'
+                    )
+                    ->isRequired()
+                    ->useAttributeAsKey('name')
+                    ->prototype('scalar')
+                ->end()
             ->end()
         ;
 

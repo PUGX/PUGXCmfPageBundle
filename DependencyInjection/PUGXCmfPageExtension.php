@@ -38,6 +38,11 @@ class PUGXCmfPageExtension extends Extension implements PrependExtensionInterfac
      */
     public function prepend(ContainerBuilder $container)
     {
+        $configs = $container->getExtensionConfig($this->getAlias());
+        $config = $this->processConfiguration(new Configuration(), $configs);
+        $container->setParameter($this->getAlias() . '.title', $config['title']);
+        $container->setParameter($this->getAlias() . '.admin_logo', $config['admin_logo']);
+
         $configs = $this->loadYmlConfig('prepended_config.yml');
         foreach ($configs as $name => $config) {
             $container->prependExtensionConfig($name, $config);

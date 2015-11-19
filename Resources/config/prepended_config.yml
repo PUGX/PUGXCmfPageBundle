@@ -59,6 +59,8 @@ sonata_block:
             contexts: [admin]
 
 sonata_admin:
+    title: "%pugx_cmf_page.title%"
+    title_logo: "%pugx_cmf_page.admin_logo%"
     dashboard:
         blocks:
             # display a dashboard block
