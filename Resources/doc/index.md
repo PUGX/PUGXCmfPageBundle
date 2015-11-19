@@ -130,10 +130,12 @@ Now you have to add Symfony CMF bundles and `PUGXCmfPageBundle` to your `AppKern
 
 Pay attention that `CmfCoreBundle` must be loaded after any bundle which prepend config (such as `PUGXCmfPageBundle`) because in `CmfCoreExtension::prepend()` it copies configuration for others CMF bundles. So because `PUGXCmfPageBundle` would prepend configuration for `cmf_core` it must be loaded before `CmfCoreBundle` to correctly copy such config on other CMF bundles.
 
-Configure which menus your site requires by adding the proper configuration in your `app/config/config.yml`:
+Configure the site title, an admin logo and which menus your site requires by adding the proper configuration in your `app/config/config.yml`:
 
 ```
 pugx_cmf_page:
+    title: My Awesome Site
+    admin_logo: bundles/frontend/images/apple-touch-icon.png
     menu: { main: "Main Menu", footer: "Footer Menu" }
 ```
 
