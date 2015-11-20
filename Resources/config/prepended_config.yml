@@ -127,3 +127,10 @@ sonata_doctrine_phpcr_admin:
                 - all
     templates:
         form: ['PUGXCmfPageBundle:Form:form_admin_fields.html.twig']
+
+# CKEditor Bundle Configuration
+ivory_ck_editor:
+    default_config: standard
+    configs:
+        standard:
+            toolbar: standard
