@@ -64,6 +64,27 @@ class PageAdminTest extends IsolatedTestCase
         $this->goToPageListAndAssertData($client, array(array('Now it\'s changed!', '', '/now-it-s-changed')));
     }
 
+    public function testEditPageWithoutChangingTheTitleShouldNotChangeTheNodeName()
+    {
+        $this->loadFixtures(
+            array('PUGX\Cmf\PageBundle\Tests\WebTest\DataFixtures\PageAdminTest\TestEditPageFixture')
+        );
+
+        $client = static::createClient();
+        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+
+        $this->updatePage(
+            $client,
+            '/cms/content',
+            'to-be-edited',
+            array('page[title]' => 'To be edited'),
+            'to-be-edited',
+            'To be edited'
+        );
+
+        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+    }
+
     public function testChangePageTitleShouldKeepOldRouteWhichRedirectsToNewRoute()
     {
         $this->loadFixtures(
