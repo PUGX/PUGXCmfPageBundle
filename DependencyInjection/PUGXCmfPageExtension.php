@@ -25,6 +25,10 @@ class PUGXCmfPageExtension extends Extension implements PrependExtensionInterfac
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter($this->getAlias() . '.title', $config['title']);
+        $container->setParameter($this->getAlias() . '.description', $config['description']);
+        $container->setParameter($this->getAlias() . '.keywords', $config['keywords']);
+        $container->setParameter($this->getAlias() . '.admin_logo', $config['admin_logo']);
         $container->setParameter($this->getAlias() . '.menu', $config['menu']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -41,6 +45,8 @@ class PUGXCmfPageExtension extends Extension implements PrependExtensionInterfac
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
         $container->setParameter($this->getAlias() . '.title', $config['title']);
+        $container->setParameter($this->getAlias() . '.description', $config['description']);
+        $container->setParameter($this->getAlias() . '.keywords', $config['keywords']);
         $container->setParameter($this->getAlias() . '.admin_logo', $config['admin_logo']);
 
         $configs = $this->loadYmlConfig('prepended_config.yml');

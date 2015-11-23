@@ -15,5 +15,7 @@ framework:
 
 pugx_cmf_page:
     title: PUGX Cmf Page Bundle
+    description: Symonfy2 bundle that provides pages content management system for Symfony2 built on top of Symfony CMF and Sonata Admin bundle.
+    keywords: symfony2, cmf, sonata, pugx
     admin_logo: bundles/pugxcmfpage/img/pugx_logo.png
     menu: { main: "Main Menu", footer: "Footer Menu" }

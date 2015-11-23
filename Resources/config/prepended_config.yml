@@ -134,3 +134,16 @@ ivory_ck_editor:
     configs:
         standard:
             toolbar: standard
+
+# Sonata SEO Bundle Configuration
+sonata_seo:
+    page:
+        title: "%pugx_cmf_page.title%"
+        metas:
+            name:
+                description: "%pugx_cmf_page.description%"
+                keywords: "%pugx_cmf_page.keywords%"
+
+# CMF SEO Bundle Configuration
+cmf_seo:
+    title: "%%content_title%% - %pugx_cmf_page.title%"

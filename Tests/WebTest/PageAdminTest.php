@@ -34,6 +34,13 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals('My New Page', trim($crawler->filter('h2')->text()));
         $this->assertEquals('Lorem ipsum dolor', trim($crawler->filter('p')->text()));
+        $this->assertSeoTitleEquals('My New Page - PUGX Cmf Page Bundle', $crawler);
+        $this->assertSeoDescriptionEquals(
+            'Symonfy2 bundle that provides pages content management system for Symfony2 built on top of Symfony CMF ' .
+            'and Sonata Admin bundle.',
+            $crawler
+        );
+        $this->assertSeoKeywordsEquals('symfony2, cmf, sonata, pugx', $crawler);
     }
 
     public function testEditPage()
@@ -325,6 +332,40 @@ class PageAdminTest extends IsolatedTestCase
             $form->set(new TextareaFormField($node));
         }
         return $ajaxCrawler;
+    }
+
+    /**
+     * @param $expectedTitle
+     * @param $crawler
+     */
+    private function assertSeoTitleEquals($expectedTitle, $crawler)
+    {
+        $this->assertEquals($expectedTitle, trim($crawler->filter('title')->text()));
+        $this->assertEquals(
+            $expectedTitle,
+            trim($crawler->filter('meta[name=title]')->attr('content'))
+        );
+    }
+
+    /**
+     * @param $expectedDescription
+     * @param $crawler
+     */
+    private function assertSeoDescriptionEquals($expectedDescription, $crawler)
+    {
+        return $this->assertEquals(
+            $expectedDescription,
+            trim($crawler->filter('meta[name=description]')->attr('content'))
+        );
+    }
+
+    /**
+     * @param $expectedKeywords
+     * @param $crawler
+     */
+    private function assertSeoKeywordsEquals($expectedKeywords, $crawler)
+    {
+        $this->assertEquals($expectedKeywords, $crawler->filter('meta[name=keywords]')->attr('content'));
     }
 
 }
