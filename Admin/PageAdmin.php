@@ -39,9 +39,11 @@ class PageAdmin extends Admin
             ->end()
             ->getFormBuilder()
             ->addEventListener(
-                FormEvents::SUBMIT,
+                FormEvents::PRE_SUBMIT,
                 function (FormEvent $event) use ($that) {
-                    $that->generatePageNodeName($event->getData());
+                    $newTitle = $event->getData();
+                    $newTitle = $newTitle['title'];
+                    $that->generatePageNodeName($event->getForm()->getData(), $newTitle);
                 }
             )
         ;
@@ -74,11 +76,12 @@ class PageAdmin extends Admin
         return $page;
     }
 
-    public function generatePageNodeName(Page $page)
+    public function generatePageNodeName(Page $page, $newTitle)
     {
-        if ($page->getTitle()) {
+        $actualTitle = $page->getTitle();
+        if ($newTitle && $newTitle != $actualTitle) {
             $slugify = Slugify::create();
-            $slug = $slugify->slugify($page->getTitle());
+            $slug = $slugify->slugify($newTitle);
             $slug = $this->getAvailableSlug($page, $slug);
             $page->setName($slug);
         }
