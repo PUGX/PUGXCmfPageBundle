@@ -26,6 +26,20 @@ class Configuration implements ConfigurationInterface
                     ->info('Define a title for the website (e.g. "My Awesome Site").')
                     ->isRequired()
                 ->end()
+                ->scalarNode('description')
+                    ->info(
+                        'Define a description for the website (e.g. "My Awesome Site SEO description."). ' .
+                        'Will be used as default meta description.'
+                    )
+                    ->isRequired()
+                ->end()
+                ->scalarNode('keywords')
+                    ->info(
+                        'Define a list of comma separated keywords for the website (e.g. "awesome, pugx, cmf"). ' .
+                        'Will be used as default meta keywords.'
+                    )
+                    ->isRequired()
+                ->end()
                 ->scalarNode('admin_logo')
                     ->info(
                         'Define the website logo path relative to web document root ' .

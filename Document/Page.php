@@ -18,6 +18,8 @@ use PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\PrimaryMenuNodeProviderInterfa
 use PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\RouteTokenProviderInterface;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode as PHPCRMenuNode;
 use Symfony\Cmf\Bundle\MenuBundle\Model\MenuNodeReferrersInterface;
+use Symfony\Cmf\Bundle\SeoBundle\SeoAwareInterface;
+use Symfony\Cmf\Bundle\SeoBundle\SeoAwareTrait;
 use Symfony\Cmf\Component\Routing\RedirectRouteInterface;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 
@@ -30,9 +32,11 @@ class Page implements
     MenuNodeReferrersInterface,
     RedirectRouteInterface,
     RouteTokenProviderInterface,
-    PrimaryMenuNodeProviderInterface
+    PrimaryMenuNodeProviderInterface,
+    SeoAwareInterface
 {
     use RouteReferrersRedirectToFirstRouteTrait;
+    use SeoAwareTrait;
 
     /**
      * @PHPCR\Id()
