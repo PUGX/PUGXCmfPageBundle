@@ -72,6 +72,10 @@ sonata_admin:
                 label_catalogue: PUGXCmfPageBundle
                 items:
                     - pugx_cmf_page.page_admin
+    extensions:
+        cmf_seo.admin_extension:
+            admins:
+                - pugx_cmf_page.page_admin
 
 # Cmf Create Configuration
 fos_rest:
@@ -147,3 +151,5 @@ sonata_seo:
 # CMF SEO Bundle Configuration
 cmf_seo:
     title: "%%content_title%% - %pugx_cmf_page.title%"
+    sonata_admin_extension:
+        enabled: true
