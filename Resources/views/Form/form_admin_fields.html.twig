@@ -1,5 +1,34 @@
 {% extends 'SonataAdminBundle:Form:form_admin_fields.html.twig' %}
 
+{# sonata_help translation fix >>> #}
+{% block form_widget -%}
+    {% if sonata_help is defined and sonata_help %}
+        {% if not sonata_admin.admin %}
+            {% set sonata_help = sonata_help|trans({}, translation_domain) %}
+        {% else %}
+            {% set sonata_help = sonata_help|trans({}, sonata_admin.field_description.translationDomain) %}
+        {% endif %}
+    {% endif %}
+    {{ parent() }}
+{%- endblock form_widget %}
+{# <<< sonata_help translation fix #}
+
+{# Textarea sonata_help fix >>> #}
+{% block textarea_widget %}
+    {% if sonata_help is defined and sonata_help %}
+        {% if not sonata_admin.admin %}
+            {% set sonata_help = sonata_help|trans({}, translation_domain) %}
+        {% else %}
+            {% set sonata_help = sonata_help|trans({}, sonata_admin.field_description.translationDomain) %}
+        {% endif %}
+    {% endif %}
+    {{ parent() }}
+    {% if sonata_help is defined and sonata_help %}
+        <span class="help-block sonata-ba-field-widget-help">{{ sonata_help|raw }}</span>
+    {% endif %}
+{% endblock textarea_widget %}
+{# <<< Textarea sonata_help fix #}
+
 {# Custom Sonata Admin Extension #}
 {% block sonata_admin_phpcr_one_to_one_widget %}
     {% include 'PUGXCmfPageBundle:CRUD:edit_phpcr_one_to_one.html.twig' %}

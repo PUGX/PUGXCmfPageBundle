@@ -58,6 +58,7 @@ sonata_block:
         pugx_cmf_page.menu_tree_block:
             contexts: [admin]
 
+# Sonata Admin Configuration
 sonata_admin:
     title: "%pugx_cmf_page.title%"
     title_logo: "%pugx_cmf_page.admin_logo%"

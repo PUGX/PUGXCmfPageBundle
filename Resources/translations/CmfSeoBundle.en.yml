@@ -1,0 +1,4 @@
+form:
+  help_title: You can define the title of this page (&lt;meta&gt; and &lt;title&gt;). Will be used the page title itself if empty.
+  help_metaDescription: You can define the &lt;meta&gt; description of this page. Will be used the site's default description if empty.
+  help_metaKeywords: You can define a list of comma separated &lt;meta&gt; keywords for this page (eg. &quot;content, management, seo&quot;). If specified, these keywords will be appended to the site's default keywords.
