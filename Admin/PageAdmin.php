@@ -25,17 +25,19 @@ class PageAdmin extends Admin
     {
         $that = $this;
         $form
-            ->with('form.group_general')
-                ->add('title', 'text')
-                ->add('text', 'textarea')
-            ->end()
-            ->with('form.group_menu')
-                ->add(
-                    'menuNodes',
-                    'sonata_type_collection',
-                    array(),
-                    array('edit' => 'inline', 'inline' => 'table', 'admin_code' => 'cmf_menu.node_admin')
-                )
+            ->tab('form.group_general')
+                ->with('form.group_general')
+                    ->add('title', 'text')
+                    ->add('text', 'ckeditor')
+                ->end()
+                ->with('form.group_menu')
+                    ->add(
+                        'menuNodes',
+                        'sonata_type_collection',
+                        array(),
+                        array('edit' => 'inline', 'inline' => 'table', 'admin_code' => 'cmf_menu.node_admin')
+                    )
+                ->end()
             ->end()
             ->getFormBuilder()
             ->addEventListener(

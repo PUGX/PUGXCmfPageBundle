@@ -34,6 +34,13 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertEquals('My New Page', trim($crawler->filter('h2')->text()));
         $this->assertEquals('Lorem ipsum dolor', trim($crawler->filter('p')->text()));
+        $this->assertSeoTitleEquals('My New Page - PUGX Cmf Page Bundle', $crawler);
+        $this->assertSeoDescriptionEquals(
+            'Symonfy2 bundle that provides pages content management system for Symfony2 built on top of Symfony CMF ' .
+            'and Sonata Admin bundle.',
+            $crawler
+        );
+        $this->assertSeoKeywordsEquals('symfony2, cmf, sonata, pugx', $crawler);
     }
 
     public function testEditPage()
@@ -205,6 +212,52 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
+    public function testDefinePageSeoMetadataShouldUseThatSpecificSeoMetadata()
+    {
+        $this->loadFixtures(
+            array('PUGX\Cmf\PageBundle\Tests\WebTest\DataFixtures\PageAdminTest\TestEditPageFixture')
+        );
+
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/to-be-edited');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals('To be edited', trim($crawler->filter('h2')->text()));
+        $this->assertEquals('This page has to be edited soon.', trim($crawler->filter('p')->text()));
+        $this->assertSeoTitleEquals('To be edited - PUGX Cmf Page Bundle', $crawler);
+        $this->assertSeoDescriptionEquals(
+            'Symonfy2 bundle that provides pages content management system for Symfony2 built on top of Symfony CMF ' .
+            'and Sonata Admin bundle.',
+            $crawler
+        );
+        $this->assertSeoKeywordsEquals('symfony2, cmf, sonata, pugx', $crawler);
+
+        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+
+        $this->updatePage(
+            $client,
+            '/cms/content',
+            'to-be-edited',
+            array(
+                'page[seoMetadata][title]' => 'Specific SEO title',
+                'page[seoMetadata][metaDescription]' => 'Specific SEO description',
+                'page[seoMetadata][metaKeywords]' => 'specific, seo, keywords',
+            ),
+            'to-be-edited',
+            'To be edited'
+        );
+
+        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+
+        $crawler = $client->request('GET', '/to-be-edited');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals('To be edited', trim($crawler->filter('h2')->text()));
+        $this->assertEquals('This page has to be edited soon.', trim($crawler->filter('p')->text()));
+        $this->assertSeoTitleEquals('Specific SEO title - PUGX Cmf Page Bundle', $crawler);
+        $this->assertSeoDescriptionEquals('Specific SEO description', $crawler);
+        $this->assertSeoKeywordsEquals('symfony2, cmf, sonata, pugx, specific, seo, keywords', $crawler);
+    }
+
     /**
      * @param Client $client
      * @param $title
@@ -346,6 +399,40 @@ class PageAdminTest extends IsolatedTestCase
             $form->set(new TextareaFormField($node));
         }
         return $ajaxCrawler;
+    }
+
+    /**
+     * @param $expectedTitle
+     * @param $crawler
+     */
+    private function assertSeoTitleEquals($expectedTitle, $crawler)
+    {
+        $this->assertEquals($expectedTitle, trim($crawler->filter('title')->text()));
+        $this->assertEquals(
+            $expectedTitle,
+            trim($crawler->filter('meta[name=title]')->attr('content'))
+        );
+    }
+
+    /**
+     * @param $expectedDescription
+     * @param $crawler
+     */
+    private function assertSeoDescriptionEquals($expectedDescription, $crawler)
+    {
+        return $this->assertEquals(
+            $expectedDescription,
+            trim($crawler->filter('meta[name=description]')->attr('content'))
+        );
+    }
+
+    /**
+     * @param $expectedKeywords
+     * @param $crawler
+     */
+    private function assertSeoKeywordsEquals($expectedKeywords, $crawler)
+    {
+        $this->assertEquals($expectedKeywords, $crawler->filter('meta[name=keywords]')->attr('content'));
     }
 
 }

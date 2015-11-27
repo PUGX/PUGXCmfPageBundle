@@ -1,0 +1,7 @@
+form:
+  label_title: Titolo
+  help_title: Puoi definire il titolo di questa pagina (&lt;meta&gt; e &lt;title&gt;). Se lasciato vuoto verrà usato il titolo della pagina stessa.
+  label_metaDescription: Descrizione Meta
+  help_metaDescription: Puoi definire la descrizione &lt;meta&gt; di questa pagina. Se lasciata vuota verrà utilizzata la descrizione predefinita del sito.
+  label_metaKeywords: Parole chiave Meta
+  help_metaKeywords: Puoi definire le parole chiave &lt;meta&gt; di questa pagina separate da virgola (es. &quot;gestione, contenuti, seo&quot;). Se specificate, queste parole chiave saranno aggiunte alle parole chiave predefinite del sito.
