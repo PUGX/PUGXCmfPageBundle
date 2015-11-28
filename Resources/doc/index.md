@@ -120,6 +120,9 @@ Now you have to add Symfony CMF bundles and `PUGXCmfPageBundle` to your `AppKern
             new Symfony\Cmf\Bundle\CreateBundle\CmfCreateBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            
+            new Sonata\SeoBundle\SonataSeoBundle(),
+            new Symfony\Cmf\Bundle\SeoBundle\CmfSeoBundle(),
 
             new PUGX\Cmf\PageBundle\PUGXCmfPageBundle(),
             new Symfony\Cmf\Bundle\CoreBundle\CmfCoreBundle(),
@@ -135,6 +138,8 @@ Configure the site title, an admin logo and which menus your site requires by ad
 ```
 pugx_cmf_page:
     title: My Awesome Site
+    description: Put here the website default meta description
+    keywords: default, meta, keywords, here
     admin_logo: bundles/frontend/images/apple-touch-icon.png
     menu: { main: "Main Menu", footer: "Footer Menu" }
 ```
