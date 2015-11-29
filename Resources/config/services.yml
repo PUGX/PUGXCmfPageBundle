@@ -8,7 +8,7 @@ services:
       - { name: doctrine_phpcr.initializer }
     arguments:
       - PUGXCmfPageBundle
-      - [ /cms/content ]
+      - [ %pugx_cmf_page.pages_base_path% ]
   pugx_cmf_page.menu_initializer:
       class: PUGX\Cmf\PageBundle\Initializer\MenuInitializer
       tags:
@@ -42,7 +42,7 @@ services:
       - SonataAdminBundle:CRUD
     calls:
       - [ setRouteBuilder, [@sonata.admin.route.path_info_slashes] ]
-      - [ setRootPath, [/cms/content] ]
+      - [ setRootPath, [%pugx_cmf_page.pages_base_path%] ]
 
   pugx_cmf_page.routing_auto.menu_path_provider:
     class: PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\MenuPathTokenProvider

@@ -2,6 +2,7 @@
 
 namespace PUGX\Cmf\PageBundle\DependencyInjection;
 
+use PUGX\Cmf\PageBundle\Document\Repository\PageRepository;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -31,6 +32,8 @@ class PUGXCmfPageExtension extends Extension implements PrependExtensionInterfac
         $container->setParameter($this->getAlias() . '.admin_logo', $config['admin_logo']);
         $container->setParameter($this->getAlias() . '.menu', $config['menu']);
 
+        $container->setParameter($this->getAlias() . '.pages_base_path', PageRepository::PAGES_PHPCR_BASE_PATH);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
@@ -43,11 +46,14 @@ class PUGXCmfPageExtension extends Extension implements PrependExtensionInterfac
     public function prepend(ContainerBuilder $container)
     {
         $configs = $container->getExtensionConfig($this->getAlias());
+
         $config = $this->processConfiguration(new Configuration(), $configs);
         $container->setParameter($this->getAlias() . '.title', $config['title']);
         $container->setParameter($this->getAlias() . '.description', $config['description']);
         $container->setParameter($this->getAlias() . '.keywords', $config['keywords']);
         $container->setParameter($this->getAlias() . '.admin_logo', $config['admin_logo']);
+
+        $container->setParameter($this->getAlias() . '.pages_base_path', PageRepository::PAGES_PHPCR_BASE_PATH);
 
         $configs = $this->loadYmlConfig('prepended_config.yml');
         foreach ($configs as $name => $config) {

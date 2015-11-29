@@ -27,7 +27,7 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertFalse($client->getResponse()->isSuccessful());
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
 
-        $this->createPage($client, 'My New Page', 'Lorem ipsum dolor', 'my-new-page');
+        $this->createPage($client, 'My New Page', 'Lorem ipsum dolor');
         $this->goToPageListAndAssertData($client, array(array('My New Page', '', '/my-new-page')));
 
         $crawler = $client->request('GET', '/my-new-page');
@@ -51,13 +51,12 @@ class PageAdminTest extends IsolatedTestCase
 
         $client = static::createClient();
         $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+        $editUri = $this->getPageEditUriFromListByPosition($client, 0);
 
         $this->updatePage(
             $client,
-            '/cms/content',
-            'to-be-edited',
+            $editUri,
             array('page[title]' => 'Now it\'s changed!'),
-            'now-it-s-changed',
             'Now it\'s changed!'
         );
 
@@ -72,13 +71,12 @@ class PageAdminTest extends IsolatedTestCase
 
         $client = static::createClient();
         $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+        $editUri = $this->getPageEditUriFromListByPosition($client, 0);
 
         $this->updatePage(
             $client,
-            '/cms/content',
-            'to-be-edited',
+            $editUri,
             array('page[title]' => 'To be edited'),
-            'to-be-edited',
             'To be edited'
         );
 
@@ -97,12 +95,12 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertEquals('To be edited', trim($crawler->filter('h2')->text()));
         $this->assertEquals('This page has to be edited soon.', trim($crawler->filter('p')->text()));
 
+        $editUri = $this->getPageEditUriFromListByPosition($client, 0);
+
         $this->updatePage(
             $client,
-            '/cms/content',
-            'to-be-edited',
+            $editUri,
             array('page[title]' => 'New route'),
-            'new-route',
             'New route'
         );
 
@@ -135,7 +133,7 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertEquals('To be edited', trim($crawler->filter('h2')->text()));
         $this->assertEquals('This page has to be edited soon.', trim($crawler->filter('p')->text()));
 
-        $this->createPage($client, 'To be edited', 'Lorem ipsum dolor', 'to-be-edited-1');
+        $this->createPage($client, 'To be edited', 'Lorem ipsum dolor');
         $this->goToPageListAndAssertData(
             $client,
             array(array('To be edited', '', '/to-be-edited'), array('To be edited', '', '/to-be-edited-1'))
@@ -158,7 +156,6 @@ class PageAdminTest extends IsolatedTestCase
             $client,
             'My New Page',
             'Lorem ipsum dolor',
-            'my-new-page',
             array(array('parent' => '/cms/menu/main', 'label' => 'New Page'))
         );
         $this->goToPageListAndAssertData($client, array(array('My New Page', 'Main Menu > New Page', '/my-new-page')));
@@ -189,14 +186,12 @@ class PageAdminTest extends IsolatedTestCase
             $client,
             'Parent Page',
             'Lorem ipsum dolor',
-            'parent-page',
             array(array('parent' => '/cms/menu/main', 'label' => 'Parent Page'))
         );
         $this->createPage(
             $client,
             'Sub Page',
             'Lorem ipsum dolor',
-            'sub-page',
             array(array('parent' => '/cms/menu/main/parent-page', 'label' => 'Sub Page'))
         );
         $this->goToPageListAndAssertData(
@@ -233,17 +228,16 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertSeoKeywordsEquals('symfony2, cmf, sonata, pugx', $crawler);
 
         $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+        $editUri = $this->getPageEditUriFromListByPosition($client, 0);
 
         $this->updatePage(
             $client,
-            '/cms/content',
-            'to-be-edited',
+            $editUri,
             array(
                 'page[seoMetadata][title]' => 'Specific SEO title',
                 'page[seoMetadata][metaDescription]' => 'Specific SEO description',
                 'page[seoMetadata][metaKeywords]' => 'specific, seo, keywords',
             ),
-            'to-be-edited',
             'To be edited'
         );
 
@@ -262,10 +256,9 @@ class PageAdminTest extends IsolatedTestCase
      * @param Client $client
      * @param $title
      * @param $text
-     * @param $expectedSlug
      * @param null|array $menuNodes
      */
-    private function createPage(Client $client, $title, $text, $expectedSlug, $menuNodes = null)
+    private function createPage(Client $client, $title, $text, $menuNodes = null)
     {
         $crawler = $client->request('GET', '/admin/cmf/page/page/create?uniqid=page');
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -283,8 +276,8 @@ class PageAdminTest extends IsolatedTestCase
 
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
-        $this->assertContains(
-            '/admin/cmf/page/page/cms/content/' . $expectedSlug . '/edit',
+        $this->assertRegExp(
+            '|/admin/cmf/page/page/cms/content/page/[A-z0-9]{13}/edit|',
             $client->getRequest()->getUri()
         );
 
@@ -328,30 +321,26 @@ class PageAdminTest extends IsolatedTestCase
     }
 
     /**
-     * @param $client
-     * @param $parentPath
-     * @param $nodeName
+     * @param Client $client
+     * @param $editUri
      * @param $editData
-     * @param $expectedUpdatedNodeName
-     * @param $expectedTitle
+     * @param $expectedNewTitle
      */
-    private function updatePage($client, $parentPath, $nodeName, $editData, $expectedUpdatedNodeName, $expectedTitle)
+    private function updatePage(Client $client, $editUri, $editData, $expectedNewTitle)
     {
-        $nodePath = $parentPath . '/' . $nodeName;
-        $expectedUpdatedPath = $parentPath . '/' . $expectedUpdatedNodeName;
-        $crawler = $client->request('GET', '/admin/cmf/page/page' . $nodePath . '/edit?uniqid=page');
+        $crawler = $client->request('GET', $editUri . '?uniqid=page');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $form = $crawler->selectButton('Update')->form();
         $form->setValues($editData);
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
-        $this->assertContains(
-            '/admin/cmf/page/page' . $expectedUpdatedPath . '/edit',
+        $this->assertRegExp(
+            '|/admin/cmf/page/page/cms/content/page/[A-z0-9]{13}/edit|',
             $client->getRequest()->getUri()
         );
         $this->assertContains(
-            'Item "' . $expectedTitle . '" has been successfully updated.',
+            'Item "' . $expectedNewTitle . '" has been successfully updated.',
             $crawler->filter('.alert.alert-success')->text()
         );
     }
@@ -433,6 +422,22 @@ class PageAdminTest extends IsolatedTestCase
     private function assertSeoKeywordsEquals($expectedKeywords, $crawler)
     {
         $this->assertEquals($expectedKeywords, $crawler->filter('meta[name=keywords]')->attr('content'));
+    }
+
+    /**
+     * @param $client
+     * @param $position 0 based index position
+     * @return mixed
+     */
+    private function getPageEditUriFromListByPosition(Client $client, $position)
+    {
+        $crawler = $client->getCrawler();
+        if (strpos($client->getRequest()->getUri(), '/admin/cmf/page/page/list') === false) {
+            $crawler = $client->request('GET', '/admin/cmf/page/page/list');
+        }
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $rows = $crawler->filter('table tbody tr');
+        return $rows->eq($position)->filter('td')->eq(1)->filter('a')->attr('href');
     }
 
 }

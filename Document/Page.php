@@ -24,10 +24,9 @@ use Symfony\Cmf\Component\Routing\RedirectRouteInterface;
 use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 
 /**
- * @PHPCR\Document(referenceable=true)
+ * @PHPCR\Document(referenceable=true, repositoryClass="PUGX\Cmf\PageBundle\Document\Repository\PageRepository")
  */
 class Page implements
-    HierarchyInterface,
     RouteReferrersInterface,
     MenuNodeReferrersInterface,
     RedirectRouteInterface,
@@ -39,19 +38,14 @@ class Page implements
     use SeoAwareTrait;
 
     /**
-     * @PHPCR\Id()
+     * @PHPCR\Uuid
+     **/
+    protected $uuid;
+
+    /**
+     * @PHPCR\Id(strategy="repository")
      */
     protected $id;
-
-    /**
-     * @PHPCR\Nodename()
-     */
-    protected $name;
-
-    /**
-     * @PHPCR\ParentDocument()
-     */
-    protected $parentDocument;
 
     /**
      * @var NodeInterface[]
@@ -77,69 +71,17 @@ class Page implements
     /**
      * @return mixed
      */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getParentDocument()
-    {
-        return $this->parentDocument;
-    }
-
-    /**
-     * @param mixed $parentDocument
-     *
-     * @return $this|void
-     */
-    public function setParentDocument($parentDocument)
-    {
-        $this->parentDocument = $parentDocument;
-    }
-
-    /**
-     * Get the parent document.
-     *
-     * @deprecated in favor of getParentDocument to avoid clashes with domain model parents.
-     *
-     * @return object|null
-     */
-    public function getParent()
-    {
-        return $this->getParentDocument();
-    }
-
-    /**
-     * Set the parent document.
-     *
-     * @deprecated in favor of getParentDocument to avoid clashes with domain model parents.
-     *
-     * @param object $parent
-     *
-     * @return $this
-     */
-    public function setParent($parent)
-    {
-        $this->setParentDocument($parent);
-    }
-
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
     }
 
     /**
@@ -215,7 +157,7 @@ class Page implements
      */
     public function __toString()
     {
-        return (string)($this->getTitle() ?: $this->getName());
+        return (string)($this->getTitle());
     }
 
     /**

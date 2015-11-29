@@ -39,15 +39,6 @@ class PageAdmin extends Admin
                     )
                 ->end()
             ->end()
-            ->getFormBuilder()
-            ->addEventListener(
-                FormEvents::PRE_SUBMIT,
-                function (FormEvent $event) use ($that) {
-                    $newTitle = $event->getData();
-                    $newTitle = $newTitle['title'];
-                    $that->generatePageNodeName($event->getForm()->getData(), $newTitle);
-                }
-            )
         ;
     }
 
@@ -66,41 +57,5 @@ class PageAdmin extends Admin
                 )
             )
         ;
-    }
-
-    public function getNewInstance()
-    {
-        /** @var Page $page */
-        $page = parent::getNewInstance();
-        $root = $this->getModelManager()->find(null, $this->getRootPath());
-        $page->setParentDocument($root);
-
-        return $page;
-    }
-
-    public function generatePageNodeName(Page $page, $newTitle)
-    {
-        $actualTitle = $page->getTitle();
-        if ($newTitle && $newTitle != $actualTitle) {
-            $slugify = Slugify::create();
-            $slug = $slugify->slugify($newTitle);
-            $slug = $this->getAvailableSlug($page, $slug);
-            $page->setName($slug);
-        }
-    }
-
-    private function getAvailableSlug(Page $page, $slug)
-    {
-        $path = rtrim($page->getParentDocument()->getId(), '/');
-        if (!$this->getModelManager()->find(null, $path . '/' . $slug)) {
-            return $slug;
-        }
-        $matches = array();
-        if (preg_match('/(.*?)-(\d+)/', $slug, $matches)) {
-            $slug = $matches[1];
-            $increment = $matches[2];
-            return $this->getAvailableSlug($page, $slug . '-' . ++$increment);
-        }
-        return $this->getAvailableSlug($page, $slug . '-1');
     }
 }
