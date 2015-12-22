@@ -32,6 +32,17 @@ class MenuNode extends \Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode
     }
 
     /**
+     * @PHPCR\PrePersist
+     */
+    public function generateUniqidAsName()
+    {
+        if ($this->getName()) {
+            return;
+        }
+        $this->setName(uniqid());
+    }
+
+    /**
      * @return array
      */
     private function getParentPathComponents()
