@@ -1,6 +1,7 @@
 parameters:
   cmf_seo.admin_extension.class: PUGX\Cmf\PageBundle\Admin\Extension\SeoContentAdminExtension
   cmf_seo.form.type.seo_metadata.class: PUGX\Cmf\PageBundle\Form\Type\SeoMetadataType
+  pugx_cmf_routing.redirect_controller.class: PUGX\Cmf\PageBundle\Controller\RedirectController
 services:
   pugx_cmf_page.initializer:
     class: Doctrine\Bundle\PHPCRBundle\Initializer\GenericInitializer
@@ -60,6 +61,12 @@ services:
       - %sonata_admin_doctrine_phpcr.tree_confirm_move%
     calls:
       - [ setContainer, [@service_container] ]
+
+  # Override default redirect controller, to be removed when symfony-cmf/routing-auto-bundle 2.x will be available
+  pugx_cmf_routing.redirect_controller:
+    class: %pugx_cmf_routing.redirect_controller.class%
+    arguments:
+      - "@router"
 
 #    pugx_cmf_page.example:
 #        class: PUGX\Cmf\PageBundle\Example
