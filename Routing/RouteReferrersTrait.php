@@ -14,7 +14,7 @@ use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Cmf\Component\RoutingAuto\Model\AutoRouteInterface;
 use Symfony\Component\Routing\Route;
 
-trait RouteReferrersRedirectToFirstRouteTrait
+trait RouteReferrersTrait
 {
     /**
      * @var RouteObjectInterface[]
@@ -96,72 +96,6 @@ trait RouteReferrersRedirectToFirstRouteTrait
         );
 
         return new ArrayCollection($orderedRoutes);
-    }
-
-    /**
-     * Get the absolute uri to redirect to external domains.
-     *
-     * If this is non-empty, the other methods won't be used.
-     *
-     * @return string target absolute uri
-     */
-    public function getUri()
-    {
-        return '';
-    }
-
-    /**
-     * Get the target route document this route redirects to.
-     *
-     * If non-null, it is added as route into the parameters, which will lead
-     * to have the generate call issued by the RedirectController to have
-     * the target route in the parameters.
-     *
-     * @return RouteObjectInterface the route this redirection points to
-     */
-    public function getRouteTarget()
-    {
-        if (!$this->routes) {
-            $this->routes = new ArrayCollection();
-        }
-        return $this->getRoutes()->first();
-    }
-
-    /**
-     * Get the name of the target route for working with the symfony standard
-     * router.
-     *
-     * @return string target route name
-     */
-    public function getRouteName()
-    {
-        if (!$this->routes) {
-            $this->routes = new ArrayCollection();
-        }
-        return $this->getRoutes()->first()->getName();
-    }
-
-    /**
-     * Whether this should be a permanent or temporary redirect
-     *
-     * @return boolean
-     */
-    public function isPermanent()
-    {
-        return true;
-    }
-
-    /**
-     * Get the parameters for the target route router::generate()
-     *
-     * Note that for the DynamicRouter, you return the target route
-     * document as field 'route' of the hashmap.
-     *
-     * @return array Information to build the route
-     */
-    public function getParameters()
-    {
-        return array();
     }
 
     /**
