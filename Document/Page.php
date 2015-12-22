@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\PHPCR\HierarchyInterface;
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCR;
 use Knp\Menu\NodeInterface;
-use PUGX\Cmf\PageBundle\Routing\RouteReferrersRedirectToFirstRouteTrait;
+use PUGX\Cmf\PageBundle\Routing\RouteReferrersTrait;
 use PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\PrimaryMenuNodeProviderInterface;
 use PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\RouteTokenProviderInterface;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode as PHPCRMenuNode;
@@ -29,12 +29,11 @@ use Symfony\Cmf\Component\Routing\RouteReferrersInterface;
 class Page implements
     RouteReferrersInterface,
     MenuNodeReferrersInterface,
-    RedirectRouteInterface,
     RouteTokenProviderInterface,
     PrimaryMenuNodeProviderInterface,
     SeoAwareInterface
 {
-    use RouteReferrersRedirectToFirstRouteTrait;
+    use RouteReferrersTrait;
     use SeoAwareTrait;
 
     /**
