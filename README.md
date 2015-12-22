@@ -7,6 +7,13 @@ Documentation
 -------------
 [Read the Documentation](https://github.com/PUGX/PUGXCmfPageBundle/blob/master/Resources/doc/index.md)
 
+Running Tests
+-------------
+
+    $ composer install
+    $ ./bin/init_phpcr.sh
+    $ ./vendor/bin/phpunit
+
 License
 -------
 This bundle is under the MIT license. See the complete license in the bundle:
