@@ -9,6 +9,7 @@
 namespace PUGX\Cmf\Tests\WebTest;
 
 
+use Doctrine\ODM\PHPCR\DocumentManager;
 use PUGX\Cmf\PageBundle\Test\IsolatedTestCase;
 use Symfony\Component\BrowserKit\Client;
 use Symfony\Component\DomCrawler\Crawler;
@@ -192,12 +193,14 @@ class PageAdminTest extends IsolatedTestCase
             'parent-page',
             array(array('parent' => '/cms/menu/main', 'label' => 'Parent Page'))
         );
+        $client->request('GET', '/_cmf_tree/phpcr_odm_tree/children', array('root' => '/cms/menu/main'));
+        $mainMenuChildren = json_decode($client->getResponse()->getContent(), true);
         $this->createPage(
             $client,
             'Sub Page',
             'Lorem ipsum dolor',
             'sub-page',
-            array(array('parent' => '/cms/menu/main/parent-page', 'label' => 'Sub Page'))
+            array(array('parent' => $mainMenuChildren[0]['attr']['id'], 'label' => 'Sub Page'))
         );
         $this->goToPageListAndAssertData(
             $client,

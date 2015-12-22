@@ -36,18 +36,7 @@ class MenuNodeAdmin extends \Symfony\Cmf\Bundle\MenuBundle\Admin\MenuNodeAdmin
                     )
                 )
             ->end()
-            ->getFormBuilder()
-            ->addEventListener(
-                FormEvents::SUBMIT,
-                function (FormEvent $event) {
-                    /** @var MenuNode $menuNode */
-                    $menuNode = $event->getData();
-                    if ($menuNode->getLabel()) {
-                        $slugify = Slugify::create();
-                        $menuNode->setName($slugify->slugify($menuNode->getLabel()));
-                    }
-                }
-            );
+        ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
