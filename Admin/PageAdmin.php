@@ -56,6 +56,7 @@ class PageAdmin extends Admin
                     'template' => 'PUGXCmfPageBundle:CRUD:list_routes.html.twig',
                 )
             )
+            ->add('publishable')
         ;
     }
 }

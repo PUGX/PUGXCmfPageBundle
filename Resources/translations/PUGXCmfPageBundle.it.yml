@@ -13,6 +13,7 @@ list:
   label_title: Titolo
   label_menu_nodes: Voci di Menù
   label_routes: Rotte
+  label_publishable: Pubblicabile
 
 form:
   group_general: Generale
