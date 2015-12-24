@@ -26,6 +26,7 @@ class TwoPagesWithMenuNodesFixture implements FixtureInterface
         $page->setParentDocument($base);
         $page->setName('page-1');
         $page->setText('Lorem ipsum dolor sit amet.');
+        $page->setPublishable(true);
         $page->addMenuNode($this->createMenuNodeForPage('Page 1', $page, $manager));
         $manager->persist($page);
 
@@ -34,6 +35,7 @@ class TwoPagesWithMenuNodesFixture implements FixtureInterface
         $page->setParentDocument($base);
         $page->setName('page-2');
         $page->setText('Lorem ipsum dolor sit amet.');
+        $page->setPublishable(true);
         $page->addMenuNode($this->createMenuNodeForPage('Page 2', $page, $manager));
         $manager->persist($page);
 

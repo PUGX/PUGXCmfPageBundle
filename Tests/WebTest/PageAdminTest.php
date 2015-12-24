@@ -275,6 +275,7 @@ class PageAdminTest extends IsolatedTestCase
         $form = $crawler->selectButton('Create')->form();
         $form['page[title]'] = $title;
         $form['page[text]'] = $text;
+        $form['page[publishable]']->tick();
         if ($menuNodes) {
             foreach ($menuNodes as $i => $menuNode) {
                 $this->addMenuItemForm($form, 'pugx_cmf_page.page_admin', 'menuNodes');

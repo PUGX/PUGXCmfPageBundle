@@ -38,6 +38,7 @@ class TestEditPageFixture implements FixtureInterface
         $page->setName('to-be-edited');
         $page->setTitle('To be edited');
         $page->setText('This page has to be edited soon.');
+        $page->setPublishable(true);
         $manager->persist($page);
         $manager->flush();
     }
