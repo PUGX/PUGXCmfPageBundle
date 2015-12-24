@@ -22,12 +22,14 @@ class TwoPagesWithMenuNodesFixture implements FixtureInterface
         $page = new Page();
         $page->setTitle('Page 1');
         $page->setText('Lorem ipsum dolor sit amet.');
+        $page->setPublishable(true);
         $page->addMenuNode($this->createMenuNodeForPage('Page 1', $page, $manager));
         $manager->persist($page);
 
         $page = new Page();
         $page->setTitle('Page 2');
         $page->setText('Lorem ipsum dolor sit amet.');
+        $page->setPublishable(true);
         $page->addMenuNode($this->createMenuNodeForPage('Page 2', $page, $manager));
         $manager->persist($page);
 
