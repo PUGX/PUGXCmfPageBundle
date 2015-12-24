@@ -13,6 +13,7 @@ list:
   label_title: Title
   label_menu_nodes: Menu Items
   label_routes: Routes
+  label_publishable: Publishable
 
 form:
   group_general: General

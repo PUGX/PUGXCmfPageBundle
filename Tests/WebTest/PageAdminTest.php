@@ -29,7 +29,7 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
 
         $this->createPage($client, 'My New Page', 'Lorem ipsum dolor', 'my-new-page');
-        $this->goToPageListAndAssertData($client, array(array('My New Page', '', '/my-new-page')));
+        $this->goToPageListAndAssertData($client, array(array('My New Page', '', '/my-new-page', 'yes')));
 
         $crawler = $client->request('GET', '/my-new-page');
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -51,7 +51,7 @@ class PageAdminTest extends IsolatedTestCase
         );
 
         $client = static::createClient();
-        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited', 'yes')));
 
         $this->updatePage(
             $client,
@@ -62,7 +62,7 @@ class PageAdminTest extends IsolatedTestCase
             'Now it\'s changed!'
         );
 
-        $this->goToPageListAndAssertData($client, array(array('Now it\'s changed!', '', '/now-it-s-changed')));
+        $this->goToPageListAndAssertData($client, array(array('Now it\'s changed!', '', '/now-it-s-changed', 'yes')));
     }
 
     public function testEditPageWithoutChangingTheTitleShouldNotChangeTheNodeName()
@@ -72,7 +72,7 @@ class PageAdminTest extends IsolatedTestCase
         );
 
         $client = static::createClient();
-        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited', 'yes')));
 
         $this->updatePage(
             $client,
@@ -83,7 +83,7 @@ class PageAdminTest extends IsolatedTestCase
             'To be edited'
         );
 
-        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited', 'yes')));
     }
 
     public function testChangePageTitleShouldKeepOldRouteWhichRedirectsToNewRoute()
@@ -119,7 +119,7 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertEquals('New route', trim($crawler->filter('h2')->text()));
         $this->assertEquals('This page has to be edited soon.', trim($crawler->filter('p')->text()));
 
-        $crawler = $this->goToPageListAndAssertData($client, array(array('New route', '', '/new-route')));
+        $crawler = $this->goToPageListAndAssertData($client, array(array('New route', '', '/new-route', 'yes')));
         $routeCellText = $crawler->filter('table tbody tr')->eq(0)->filter('td')->eq(3)->text();
         $this->assertNotContains('/to-be-edited', $routeCellText);
     }
@@ -139,7 +139,10 @@ class PageAdminTest extends IsolatedTestCase
         $this->createPage($client, 'To be edited', 'Lorem ipsum dolor', 'to-be-edited-1');
         $this->goToPageListAndAssertData(
             $client,
-            array(array('To be edited', '', '/to-be-edited'), array('To be edited', '', '/to-be-edited-1'))
+            array(
+                array('To be edited', '', '/to-be-edited', 'yes'),
+                array('To be edited', '', '/to-be-edited-1', 'yes')
+            )
         );
 
         $crawler = $client->request('GET', '/to-be-edited-1');
@@ -162,7 +165,10 @@ class PageAdminTest extends IsolatedTestCase
             'my-new-page',
             array(array('parent' => '/cms/menu/main', 'label' => 'New Page'))
         );
-        $this->goToPageListAndAssertData($client, array(array('My New Page', 'Main Menu > New Page', '/my-new-page')));
+        $this->goToPageListAndAssertData(
+            $client,
+            array(array('My New Page', 'Main Menu > New Page', '/my-new-page', 'yes'))
+        );
 
         $crawler = $client->request('GET', '/my-new-page');
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -205,8 +211,8 @@ class PageAdminTest extends IsolatedTestCase
         $this->goToPageListAndAssertData(
             $client,
             array(
-                array('Parent Page', 'Main Menu > Parent Page', '/parent-page'),
-                array('Sub Page', 'Main Menu > Parent Page > Sub Page', '/parent-page/sub-page'),
+                array('Parent Page', 'Main Menu > Parent Page', '/parent-page', 'yes'),
+                array('Sub Page', 'Main Menu > Parent Page > Sub Page', '/parent-page/sub-page', 'yes'),
             )
         );
         $crawler = $client->request('GET', '/parent-page');
@@ -235,7 +241,7 @@ class PageAdminTest extends IsolatedTestCase
         );
         $this->assertSeoKeywordsEquals('symfony2, cmf, sonata, pugx', $crawler);
 
-        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited', 'yes')));
 
         $this->updatePage(
             $client,
@@ -250,7 +256,7 @@ class PageAdminTest extends IsolatedTestCase
             'To be edited'
         );
 
-        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited')));
+        $this->goToPageListAndAssertData($client, array(array('To be edited', '', '/to-be-edited', 'yes')));
 
         $crawler = $client->request('GET', '/to-be-edited');
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -276,9 +282,19 @@ class PageAdminTest extends IsolatedTestCase
 
         $this->goToPageListAndAssertData(
             $client,
-            array(array('Page 1', 'Main Menu > Page 1', '/page-1'), array('Page 2', 'Main Menu > Page 2', '/page-2'))
+            array(
+                array('Page 1', 'Main Menu > Page 1', '/page-1', 'yes'),
+                array('Page 2', 'Main Menu > Page 2', '/page-2', 'yes')
+            )
         );
         $this->updatePage($client, '/cms/content', 'page-1', array('page[publishable]' => false), 'page-1', 'Page 1');
+        $this->goToPageListAndAssertData(
+            $client,
+            array(
+                array('Page 1', 'Main Menu > Page 1', '/page-1', 'no'),
+                array('Page 2', 'Main Menu > Page 2', '/page-2', 'yes')
+            )
+        );
 
         $client->request('GET', '/page-1');
         $this->assertFalse($client->getResponse()->isSuccessful());
@@ -337,9 +353,14 @@ class PageAdminTest extends IsolatedTestCase
         $crawler = $client->request('GET', '/admin/cmf/page/page/list');
         $this->assertTrue($client->getResponse()->isSuccessful());
         $rows = $crawler->filter('table tbody tr');
-        $this->assertCount(count($expectedData), $rows);
+        $this->assertCount(count($expectedData), $rows, 'Failed asserting list data: rows count mismatch.');
         foreach ($expectedData as $i => $expectedRow) {
             $row = $rows->eq($i);
+            $this->assertCount(
+                count($expectedRow)+1,
+                $row->filter('td'),
+                "Failed asserting list data: column count mismatch on row $i."
+            );
             foreach ($expectedRow as $j => $expectedField) {
                 $fieldIndex = $j + 1; // First column is always the checkbox/batch column
                 $field = $row->filter('td')->eq($fieldIndex);
