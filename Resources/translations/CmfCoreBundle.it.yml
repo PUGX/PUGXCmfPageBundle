@@ -1,0 +1,4 @@
+default: Principale
+form:
+  group_publish_workflow: Pubblicazione
+  label_publishable: Pubblicabile
