@@ -41,7 +41,6 @@ cmf_core:
           use_sonata_admin: false
         # if you want another basepath
         # basepath: /custom/basepath
-    publish_workflow: false
 
 # Menu Configuration
 knp_menu:
