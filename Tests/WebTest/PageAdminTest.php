@@ -255,6 +255,36 @@ class PageAdminTest extends IsolatedTestCase
         $this->assertSeoKeywordsEquals('symfony2, cmf, sonata, pugx, specific, seo, keywords', $crawler);
     }
 
+    public function testUnpublishPageShouldResultIn404AndUnpublishedMenuNode()
+    {
+        $this->loadFixtures(
+            array('PUGX\Cmf\PageBundle\Tests\WebTest\DataFixtures\PageAdminTest\TwoPagesWithMenuNodesFixture')
+        );
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/page-1');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertCount(2, $crawler->filter('nav#menu-main ul li'));
+        $this->assertContains('/page-1', $crawler->filter('nav#menu-main ul li a')->eq(0)->attr('href'));
+        $this->assertContains('/page-2', $crawler->filter('nav#menu-main ul li a')->eq(1)->attr('href'));
+
+        $this->goToPageListAndAssertData(
+            $client,
+            array(array('Page 1', 'Main Menu > Page 1', '/page-1'), array('Page 2', 'Main Menu > Page 2', '/page-2'))
+        );
+        $editUri = $this->getPageEditUriFromListByPosition($client, 0);
+        $this->updatePage($client, $editUri, array('page[publishable]' => false), 'Page 1');
+
+        $client->request('GET', '/page-1');
+        $this->assertFalse($client->getResponse()->isSuccessful());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+
+        $crawler = $client->request('GET', '/page-2');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertCount(1, $crawler->filter('nav#menu-main ul li'));
+        $this->assertContains('/page-2', $crawler->filter('nav#menu-main ul li a')->eq(0)->attr('href'));
+    }
+
     /**
      * @param Client $client
      * @param $title
