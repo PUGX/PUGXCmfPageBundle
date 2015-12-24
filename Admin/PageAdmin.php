@@ -25,7 +25,7 @@ class PageAdmin extends Admin
     {
         $that = $this;
         $form
-            ->tab('form.group_general')
+            ->tab('default')
                 ->with('form.group_general')
                     ->add('title', 'text')
                     ->add('text', 'ckeditor')
