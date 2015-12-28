@@ -1,0 +1,21 @@
+app:
+  image: tianon/true
+  volumes:
+    - ./:/app
+php:
+  image: php:5.6-cli
+  working_dir: /app
+  volumes:
+    - ./Tests/Resources/app/config/php:/usr/local/etc/php/conf.d/
+  volumes_from:
+    - app:rw
+  ports:
+    - "8000:8000"
+  command: "/bin/bash bin/console.sh server:run --router=vendor/symfony-cmf/testing/resources/web/router.php --docroot=vendor/symfony-cmf/testing/resources/web 0.0.0.0:8000"
+
+composer:
+  image: composer/composer
+  volumes:
+    - ~/.composer:/root/composer
+  volumes_from:
+    - app:rw
