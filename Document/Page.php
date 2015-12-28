@@ -16,6 +16,7 @@ use Knp\Menu\NodeInterface;
 use PUGX\Cmf\PageBundle\Routing\RouteReferrersTrait;
 use PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\PrimaryMenuNodeProviderInterface;
 use PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\RouteTokenProviderInterface;
+use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableInterface;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode as PHPCRMenuNode;
 use Symfony\Cmf\Bundle\MenuBundle\Model\MenuNodeReferrersInterface;
 use Symfony\Cmf\Bundle\SeoBundle\SeoAwareInterface;
@@ -31,7 +32,8 @@ class Page implements
     MenuNodeReferrersInterface,
     RouteTokenProviderInterface,
     PrimaryMenuNodeProviderInterface,
-    SeoAwareInterface
+    SeoAwareInterface,
+    PublishableInterface
 {
     use RouteReferrersTrait;
     use SeoAwareTrait;
@@ -61,6 +63,11 @@ class Page implements
      * @PHPCR\String()
      */
     protected $text;
+
+    /**
+     * @PHPCR\Boolean()
+     */
+    protected $publishable;
 
     public function __construct()
     {
@@ -177,5 +184,28 @@ class Page implements
     public function provideRouteToken()
     {
         return $this->getTitle();
+    }
+
+    /**
+     * Set the boolean flag whether this content is publishable or not.
+     *
+     * @param boolean $publishable
+     */
+    public function setPublishable($publishable)
+    {
+        $this->publishable = $publishable;
+    }
+
+    /**
+     * Whether this content is publishable at all.
+     *
+     * A false value indicates that the content is not published. True means it
+     * is allowed to show this content.
+     *
+     * @return boolean
+     */
+    public function isPublishable()
+    {
+        return $this->publishable;
     }
 }
