@@ -45,7 +45,6 @@ class AppKernel extends TestKernel
                 new Symfony\Cmf\Bundle\MenuBundle\CmfMenuBundle(),
                 new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 
-                new Symfony\Cmf\Bundle\CreateBundle\CmfCreateBundle(),
                 new FOS\RestBundle\FOSRestBundle(),
                 new JMS\SerializerBundle\JMSSerializerBundle(),
                 new Ivory\CKEditorBundle\IvoryCKEditorBundle(),

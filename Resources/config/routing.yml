@@ -1,6 +1,3 @@
-_cmf_create:
-    resource: "@CmfCreateBundle/Resources/config/routing/rest.xml"
-
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
     prefix: /admin
