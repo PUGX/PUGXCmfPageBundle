@@ -9,6 +9,7 @@
 namespace PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider;
 
 
+use Doctrine\ODM\PHPCR\DocumentManager;
 use Symfony\Cmf\Bundle\CoreBundle\Slugifier\SlugifierInterface;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode;
 use Symfony\Cmf\Component\RoutingAuto\TokenProviderInterface;
@@ -23,12 +24,21 @@ class MenuPathTokenProvider implements TokenProviderInterface
     private $slugifier;
 
     /**
+     * @var DocumentManager
+     */
+    private $documentManager;
+
+    private $locale;
+
+    /**
      * MenuPathTokenProvider constructor.
      * @param SlugifierInterface $slugifier
+     * @param DocumentManager $documentManager
      */
-    public function __construct(SlugifierInterface $slugifier)
+    public function __construct(SlugifierInterface $slugifier, DocumentManager $documentManager)
     {
         $this->slugifier = $slugifier;
+        $this->documentManager = $documentManager;
     }
 
     /**
@@ -43,6 +53,11 @@ class MenuPathTokenProvider implements TokenProviderInterface
     {
         $path = array();
         $subject = $uriContext->getSubjectObject();
+
+        if ($this->documentManager->isDocumentTranslatable($subject)) {
+            $this->locale = $subject->getLocale();
+        }
+
         $this->traversePath($subject, $path);
         if (empty($path)) {
             return '';
@@ -91,7 +106,15 @@ class MenuPathTokenProvider implements TokenProviderInterface
         if (!$parentNode instanceof MenuNode) {
             return;
         }
+
         $parentSubject = $parentNode->getContent();
+        if ($this->locale && $this->documentManager->isDocumentTranslatable($parentSubject)) {
+            $meta = $this->documentManager->getMetadataFactory()->getMetadataFor(get_class($parentSubject));
+            $parentSubject = $this
+                ->documentManager
+                ->findTranslation($meta->getName(), $meta->getIdentifierValue($parentSubject), $this->locale);
+        }
+
         $this->traversePath($parentSubject, $path);
     }
 }
