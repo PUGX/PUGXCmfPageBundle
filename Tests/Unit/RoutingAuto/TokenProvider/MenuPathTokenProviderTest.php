@@ -18,6 +18,7 @@ class MenuPathTokenProviderTest extends \PHPUnit_Framework_TestCase
         $slugifier = $this->mockSlugifier(
             array('Subject' => 'subject', 'Parent Subject' => 'parent-subject')
         );
+        $documentManager = $this->getMock('Doctrine\ODM\PHPCR\DocumentManager', array(), array(), '', false);
         $subject = $this->getMock(
             'PUGX\Cmf\PageBundle\Tests\Unit\RoutingAuto\TokenProvider\InitialTestSubjectInterface'
         );
@@ -33,7 +34,7 @@ class MenuPathTokenProviderTest extends \PHPUnit_Framework_TestCase
         $menuNode = $this->mockMenuNode($parentMenuNode);
         $subject->expects($this->any())->method('providePrimaryMenuNode')->willReturn($menuNode);
         $uriContext = $this->mockUriContext($subject);
-        $provider = new MenuPathTokenProvider($slugifier);
+        $provider = new MenuPathTokenProvider($slugifier, $documentManager);
         $path = $provider->provideValue($uriContext, array());
         $this->assertEquals('parent-subject/subject', $path);
     }
@@ -41,10 +42,11 @@ class MenuPathTokenProviderTest extends \PHPUnit_Framework_TestCase
     public function testProvideValueWithRouteTokenProviderSubjectButNoMenuProviderSubjectShouldReturnOnlyRouteToken()
     {
         $slugifier = $this->mockSlugifier(array('My Subject' => 'my-subject'));
+        $documentManager = $this->getMock('Doctrine\ODM\PHPCR\DocumentManager', array(), array(), '', false);
         $subject = $this->getMock('PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\RouteTokenProviderInterface');
         $subject->expects($this->any())->method('provideRouteToken')->willReturn('My Subject');
         $uriContext = $this->mockUriContext($subject);
-        $provider = new MenuPathTokenProvider($slugifier);
+        $provider = new MenuPathTokenProvider($slugifier, $documentManager);
         $path = $provider->provideValue($uriContext, array());
         $this->assertEquals('my-subject', $path);
     }
@@ -52,6 +54,7 @@ class MenuPathTokenProviderTest extends \PHPUnit_Framework_TestCase
     public function testProvideValueWithNoRouteTokenProviderSubjectButMenuProviderSubjectShouldReturnEmpty()
     {
         $slugifier = $this->mockSlugifier(array());
+        $documentManager = $this->getMock('Doctrine\ODM\PHPCR\DocumentManager', array(), array(), '', false);
         $subject = $this->getMock('PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\PrimaryMenuNodeProviderInterface');
         $parentContent = $this->getMock('PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\RouteTokenProviderInterface');
         $parentContent->expects($this->any())->method('provideRouteToken')->willReturn('Parent Subject');
@@ -59,7 +62,7 @@ class MenuPathTokenProviderTest extends \PHPUnit_Framework_TestCase
         $menuNode = $this->mockMenuNode($parentMenuNode, null);
         $subject->expects($this->any())->method('providePrimaryMenuNode')->willReturn($menuNode);
         $uriContext = $this->mockUriContext($subject);
-        $provider = new MenuPathTokenProvider($slugifier);
+        $provider = new MenuPathTokenProvider($slugifier, $documentManager);
         $path = $provider->provideValue($uriContext, array());
         $this->assertEquals('', $path);
     }
@@ -67,11 +70,17 @@ class MenuPathTokenProviderTest extends \PHPUnit_Framework_TestCase
     public function testProvideValueWithNoRouteTokenProviderSubjectAndNoMenuProviderSubject()
     {
         $slugifier = $this->mockSlugifier(array());
+        $documentManager = $this->getMock('Doctrine\ODM\PHPCR\DocumentManager', array(), array(), '', false);
         $subject = $this->getMock('\stdClass');
         $uriContext = $this->mockUriContext($subject);
-        $provider = new MenuPathTokenProvider($slugifier);
+        $provider = new MenuPathTokenProvider($slugifier, $documentManager);
         $path = $provider->provideValue($uriContext, array());
         $this->assertEquals('', $path);
+    }
+
+    public function testProvideValueForTranslatedContent()
+    {
+        $this->markTestSkipped('TODO');
     }
 
     /**

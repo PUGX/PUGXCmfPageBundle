@@ -47,7 +47,9 @@ services:
 
   pugx_cmf_page.routing_auto.menu_path_provider:
     class: PUGX\Cmf\PageBundle\RoutingAuto\TokenProvider\MenuPathTokenProvider
-    arguments: [ @cmf_routing_auto.slugifier ]
+    arguments:
+      - @cmf_routing_auto.slugifier
+      - @doctrine_phpcr.odm.default_document_manager
     tags:
       - { name: cmf_routing_auto.token_provider, alias: "menu_path" }
 
